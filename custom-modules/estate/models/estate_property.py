@@ -1,11 +1,21 @@
 import datetime
 
 from odoo import api, models, fields
-from odoo.exceptions import  UserError
+from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
+from odoo.tools import float_utils
+
 
 class EstateProperty(models.Model):
     _name = "estate_property"
     _description = "This table will hold properties info"
+
+    _sql_constraints = [
+        ('check_property_expected_price', 'CHECK(expected_price >= 0)',
+         'Expected price of a property should be more than 0'),
+        ('check_property_selling_price', 'CHECK(selling_price >=0)', 'Expected selling price >= 0'),
+        ('unique_property_name_unique', 'UNIQUE (name)', 'A property with this name already exists')
+    ]
 
     active = fields.Boolean(default=True)
     state = fields.Selection(
@@ -81,3 +91,21 @@ class EstateProperty(models.Model):
                 self.state = 'canceled'
                 return True
             raise UserError("Can cancel a sold property")
+
+    @api.constrains('selling_price')
+    def _selling_price_check(self):
+        for record in self:
+            if record.selling_price == 0:
+                return True
+            if float_utils.float_compare(record.selling_price, record.expected_price * 0.9, 2) < 0:
+                raise ValidationError(
+                    f'Selling price must be grater than {"{:,.2f}".format(record.expected_price * 0.9)}')
+
+    @api.constrains('expected_price')
+    def _expected_price_check(self):
+        for record in self:
+            if record.selling_price == 0:
+                return True
+            if float_utils.float_compare(record.selling_price / 0.9, record.expected_price, 2) < 0:
+                raise ValidationError(
+                    f'Expected price cant be grater that {"{:,.2f}".format(record.selling_price / 0.9)}')

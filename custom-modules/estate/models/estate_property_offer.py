@@ -5,6 +5,10 @@ class EstatePropertyOffer(models.Model):
     _name = "estate_property_offer"
     _description = "Property offers"
 
+    _sql_constraints = [
+        ('check_property_offer_price','CHECK(price>=0)','Offer price must be >= 0')
+    ]
+
     price = fields.Float()
     status = fields.Selection(
         string="Status of offer",
@@ -15,7 +19,7 @@ class EstatePropertyOffer(models.Model):
         copy=False
     )
     validity = fields.Integer(default=7)
-    date_deadline = fields.Date(compute='_compute_deadline', inverse='_inverse_deadline')
+    date_deadline = fields.Date(compute='_compute_deadline', inverse='_inverse_deadline',store=False)
 
     partner_id = fields.Many2one("res.partner", required=True)
     property_id = fields.Many2one("estate_property", required=True)

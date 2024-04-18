@@ -1,5 +1,5 @@
 from odoo import api, models, fields
-
+from odoo.exceptions import  UserError
 
 class EstatePropertyOffer(models.Model):
     _name = "estate_property_offer"
@@ -32,3 +32,19 @@ class EstatePropertyOffer(models.Model):
         for offer in self:
             if offer.date_deadline:
                 offer.validity = (offer.date_deadline - offer.create_date.date()).days
+
+    def confirm_offer(self):
+        for offer in self:
+            if not offer.status:
+                offer.status = "accepted"
+                offer.property_id.buyer_id = self.partner_id
+                offer.property_id.selling_price = self.price
+                return True
+            raise UserError(f'You can not confirm an {offer.status} offer')
+
+    def refuse_offer(self):
+        for offer in self:
+            if not offer.status:
+                offer.status = "refused"
+                return True
+            raise UserError(f'You can not refuse an {offer.status} offer')

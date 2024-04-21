@@ -110,3 +110,9 @@ class EstateProperty(models.Model):
             if float_utils.float_compare(record.selling_price / 0.9, record.expected_price, 2) < 0:
                 raise ValidationError(
                     f'Expected price cant be grater that {"{:,.2f}".format(record.selling_price / 0.9)}')
+
+    @api.ondelete(at_uninstall=False)
+    def _on_delete(self):
+        for _item in self:
+            if _item.state not in ['new', 'canceled']:
+                raise UserError(f'Can\'t delete a property at state {_item.state}!')

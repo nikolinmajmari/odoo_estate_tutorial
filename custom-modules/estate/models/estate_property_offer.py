@@ -1,6 +1,6 @@
 from odoo import api, models, fields
 from odoo.exceptions import UserError
-
+import logging
 
 class EstatePropertyOffer(models.Model):
     _name = "estate_property_offer"
@@ -24,7 +24,7 @@ class EstatePropertyOffer(models.Model):
 
     partner_id = fields.Many2one("res.partner", required=True)
     property_id = fields.Many2one("estate_property", required=True)
-    property_type_id = fields.Many2one(related='property_id.property_type_id',store=True)
+    property_type_id = fields.Many2one(related='property_id.property_type_id', store=True)
 
     @api.depends("create_date", "validity")
     def _compute_deadline(self):
@@ -54,3 +54,11 @@ class EstatePropertyOffer(models.Model):
                 offer.status = "refused"
                 return True
             raise UserError(f'You can not refuse an {offer.status} offer')
+
+    @api.model
+    def create(self, vals_list):
+        created = super().create(vals_list)
+        model = self.env['estate_property'].browse(vals_list['property_id'])
+        if model and model.state == 'new':
+            model.state = 'offer_received'
+        return created

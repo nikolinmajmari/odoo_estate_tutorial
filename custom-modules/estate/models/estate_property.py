@@ -81,6 +81,8 @@ class EstateProperty(models.Model):
 
     def sell_property(self):
         for record in self:
+            if record.buyer_id is None:
+                raise UserError('Can not sell a property without a buyer.')
             if record.state != 'canceled':
                 record.state = 'sold'
                 return True

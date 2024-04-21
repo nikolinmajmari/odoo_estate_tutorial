@@ -45,6 +45,7 @@ class EstatePropertyOffer(models.Model):
                 offer.status = "accepted"
                 offer.property_id.buyer_id = self.partner_id
                 offer.property_id.selling_price = self.price
+                offer.property_id.state = 'offer_accepted'
                 return True
             raise UserError(f'You can not confirm an {offer.status} offer')
 
@@ -57,8 +58,10 @@ class EstatePropertyOffer(models.Model):
 
     @api.model
     def create(self, vals_list):
-        created = super().create(vals_list)
         model = self.env['estate_property'].browse(vals_list['property_id'])
+        if model.best_offer > vals_list['price']:
+            raise UserError('Can\'t create an offer lower than '+str(model.best_offer))
+        created = super().create(vals_list)
         if model and model.state == 'new':
             model.state = 'offer_received'
         return created

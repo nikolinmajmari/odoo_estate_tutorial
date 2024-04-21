@@ -20,6 +20,7 @@ class EstateProperty(models.Model):
         invoice_vals_list = []
         for _property in self:
             invoice_vals_list.append({
+                'name': f'{_property.name} invoice 102020202',
                 'partner_id': _property.buyer_id.id,
                 'journal_id': 1,
                 'line_ids': [
@@ -39,6 +40,6 @@ class EstateProperty(models.Model):
         return moves
 
     def sell_property(self):
-        sold =  super().sell_property()
+        sold = super().sell_property()
         self._create_invoices()
         return sold

@@ -1,12 +1,13 @@
 from odoo import api, models, fields
-from odoo.exceptions import  UserError
+from odoo.exceptions import UserError
+
 
 class EstatePropertyOffer(models.Model):
     _name = "estate_property_offer"
     _description = "Property offers"
-
+    _order = "price desc"
     _sql_constraints = [
-        ('check_property_offer_price','CHECK(price>=0)','Offer price must be >= 0')
+        ('check_property_offer_price', 'CHECK(price>=0)', 'Offer price must be >= 0')
     ]
 
     price = fields.Float()
@@ -19,10 +20,11 @@ class EstatePropertyOffer(models.Model):
         copy=False
     )
     validity = fields.Integer(default=7)
-    date_deadline = fields.Date(compute='_compute_deadline', inverse='_inverse_deadline',store=False)
+    date_deadline = fields.Date(compute='_compute_deadline', inverse='_inverse_deadline', store=False)
 
     partner_id = fields.Many2one("res.partner", required=True)
     property_id = fields.Many2one("estate_property", required=True)
+    property_type_id = fields.Many2one(related='property_id.property_type_id',store=True)
 
     @api.depends("create_date", "validity")
     def _compute_deadline(self):

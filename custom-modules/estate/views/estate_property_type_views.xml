@@ -6,4 +6,45 @@
         <field name="res_model">estate_property_type</field>
         <field name="view_mode">tree,form</field>
     </record>
+
+    <record id="estate_property_type_tree" model="ir.ui.view">
+        <field name="name">Property Types Listing</field>
+        <field name="model">estate_property_type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="sequence" widget="handle"/>
+            </tree>
+        </field>
+    </record>
+    <record id="estate_property_type_form" model="ir.ui.view">
+        <field name="name">Property Type</field>
+        <field name="model">estate_property_type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="action"
+                                class="oe_stat_button pull-right"
+                                name="estate.estate_property_offer_action"
+                                icon="fa-book">
+                            Offers (<field name="offer_count" readonly="True"/>)
+                        </button>
+                    </div>
+                     <h3><field name="name"/> </h3>
+                     <notebook>
+                         <page string="Properties">
+                             <field name="properties_ids" options="{'create':false,'delete':false}">
+                                 <tree>
+                                     <field name="name" string="Title"/>
+                                     <field name="expected_price" string="Expected Price"/>
+                                     <field name="state" string="Status"/>
+                                 </tree>
+                             </field>
+                         </page>
+                     </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
 </odoo>

@@ -9,6 +9,7 @@ from odoo.tools import float_utils
 class EstateProperty(models.Model):
     _name = "estate_property"
     _description = "This table will hold properties info"
+    _order = "id desc"
 
     _sql_constraints = [
         ('check_property_expected_price', 'CHECK(expected_price >= 0)',
@@ -21,7 +22,7 @@ class EstateProperty(models.Model):
     state = fields.Selection(
         required=True,
         copy=False,
-        default=None,
+        default="new",
         selection=[
             ("new", "New"),
             ("offer_received", "Offer Received"),

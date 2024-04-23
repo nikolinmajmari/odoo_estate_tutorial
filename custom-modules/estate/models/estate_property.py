@@ -52,6 +52,8 @@ class EstateProperty(models.Model):
     total_area = fields.Integer(compute='_compute_total_area')
 
     best_offer = fields.Float(compute="_compute_best_offer")
+    offer_count = fields.Integer(compute="_offer_count")
+    has_buyer = fields.Boolean(compute='_has_buyer')
 
     property_type_id = fields.Many2one("estate_property_type", string="Property Type", required=False)
     buyer_id = fields.Many2one("res.partner", copy=False, string="Property Buyer")
@@ -64,6 +66,15 @@ class EstateProperty(models.Model):
     def _compute_total_area(self):
         for ep in self:
             ep.total_area = ep.living_area + ep.garden_area
+
+    @api.depends('buyer_id')
+    def _has_buyer(self):
+        for ep in self:
+            ep.has_buyer = ep.buyer_id is not None
+    @api.depends("offer_ids")
+    def _offer_count(self):
+        for ep in self:
+            ep.offer_count = len(ep.offer_ids)
 
     @api.depends("offer_ids.price")
     def _compute_best_offer(self):

@@ -7,7 +7,7 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record id="estate_property_type_tree" model="ir.ui.view">
+    <record id="estate_property_type_view_tree" model="ir.ui.view">
         <field name="name">Property Types Listing</field>
         <field name="model">estate_property_type</field>
         <field name="arch" type="xml">
@@ -17,7 +17,7 @@
             </tree>
         </field>
     </record>
-    <record id="estate_property_type_form" model="ir.ui.view">
+    <record id="estate_property_type_view_form" model="ir.ui.view">
         <field name="name">Property Type</field>
         <field name="model">estate_property_type</field>
         <field name="arch" type="xml">

@@ -4,13 +4,14 @@ from odoo import api, models, fields
 from odoo.exceptions import UserError
 from odoo.exceptions import ValidationError
 from odoo.tools import float_utils
+from odoo import _
 
 
 class EstateProperty(models.Model):
+    # private
     _name = "estate_property"
     _description = "This table will hold properties info"
     _order = "id desc"
-
     _sql_constraints = [
         ('check_property_expected_price', 'CHECK(expected_price >= 0)',
          'Expected price of a property should be more than 0'),
@@ -18,6 +19,7 @@ class EstateProperty(models.Model):
         ('unique_property_name_unique', 'UNIQUE (name)', 'A property with this name already exists')
     ]
 
+    # Fields
     active = fields.Boolean(default=True)
     state = fields.Selection(
         required=True,
@@ -62,6 +64,7 @@ class EstateProperty(models.Model):
     tag_ids = fields.Many2many("estate_property_tag", string="Tags")
     offer_ids = fields.One2many("estate_property_offer", "property_id")
 
+    # Computed
     @api.depends('garden_area', 'living_area')
     def _compute_total_area(self):
         for ep in self:
@@ -71,6 +74,7 @@ class EstateProperty(models.Model):
     def _has_buyer(self):
         for ep in self:
             ep.has_buyer = ep.buyer_id is not None
+
     @api.depends("offer_ids")
     def _offer_count(self):
         for ep in self:
@@ -90,42 +94,55 @@ class EstateProperty(models.Model):
             self.garden_orientation = "north"
             self.garden_area = 10
 
+    @api.constrains('selling_price')
+    def _selling_price_check(self):
+        for record in self:
+            if record.selling_price == 0:
+                continue
+            if float_utils.float_compare(record.selling_price, record.min_selling_price(), 2) < 0:
+                raise ValidationError(
+                    _("Selling price must be grater than %.2f", record.min_selling_price())
+                )
+
+    def min_selling_price(self):
+        return self.expected_price * 0.9
+
+    def max_expected_price(self):
+        if self.selling_price == 0:
+            return None
+        return self.selling_price / 0.9
+
+    # Constraints
+    @api.constrains('expected_price')
+    def _expected_price_check(self):
+        for record in self:
+            if (record.max_expected_price() is not None
+                    and float_utils.float_compare(
+                        record.expected_price, record.max_expected_price(), 2) > 0
+            ):
+                raise ValidationError(
+                    _("Expected price can't be grater that %.2f", record.max_expected_price()))
+        return True
+
+    @api.ondelete(at_uninstall=False)
+    def _on_delete(self):
+        for _item in self:
+            if _item.state not in ['new', 'canceled']:
+                raise UserError(_("Can't delete a property at state %s", _item.state))
+
+    # Action Methods
     def sell_property(self):
         for record in self:
             if record.buyer_id is None:
-                raise UserError('Can not sell a property without a buyer.')
+                raise UserError(_("Can not sell a property without a buyer."))
             if record.state != 'canceled':
                 record.state = 'sold'
                 return True
-            raise UserError("Can sell a canceled property")
+            raise UserError(_("Can sell a canceled property"))
 
     def cancel_property(self):
         for record in self:
             if self.state != 'sold':
                 self.state = 'canceled'
                 return True
-            raise UserError("Can cancel a sold property")
-
-    @api.constrains('selling_price')
-    def _selling_price_check(self):
-        for record in self:
-            if record.selling_price == 0:
-                return True
-            if float_utils.float_compare(record.selling_price, record.expected_price * 0.9, 2) < 0:
-                raise ValidationError(
-                    f'Selling price must be grater than {"{:,.2f}".format(record.expected_price * 0.9)}')
-
-    @api.constrains('expected_price')
-    def _expected_price_check(self):
-        for record in self:
-            if record.selling_price == 0:
-                return True
-            if float_utils.float_compare(record.selling_price / 0.9, record.expected_price, 2) < 0:
-                raise ValidationError(
-                    f'Expected price cant be grater that {"{:,.2f}".format(record.selling_price / 0.9)}')
-
-    @api.ondelete(at_uninstall=False)
-    def _on_delete(self):
-        for _item in self:
-            if _item.state not in ['new', 'canceled']:
-                raise UserError(f'Can\'t delete a property at state {_item.state}!')
+            raise UserError(_("Can't cancel a sold property"))

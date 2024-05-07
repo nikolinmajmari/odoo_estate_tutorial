@@ -33,15 +33,15 @@
                                 <field name="name"/>
                             </h3>
                             <div class="oe-inline">
-                                <label class="pr-2">Expected Price:&#160;&#160;</label>
+                                <label for="expected_price" class="pr-2">Expected Price:&#160;&#160;</label>
                                 <field name="expected_price"/>
                             </div>
                             <div t-if="record.buyer_id">
-                                <label class="pr-2">Selling Price:</label>
+                                <label for="selling_price" class="pr-2 o_form_label">Selling Price:</label>
                                 <field name="selling_price"/>
                             </div>
-                            <div t-if="record.offer_count.raw_value  &gt; 0" class="oe-inline">
-                                <label class="pr-2">Best Offer:</label>
+                            <div t-if="record.offer_count.value  &gt; 0" class="oe-inline">
+                                <label for="best_offer" class="pr-2">Best Offer:</label>
                                 <field name="best_offer"/>
                             </div>
                             <field name="tag_ids" class="mt-2"  widget="many2many_tags" options="{'color_field':'color'}"/>

@@ -1,5 +1,6 @@
 from odoo import api, models, fields
 from odoo.exceptions import UserError
+from odoo import _
 import logging
 
 class EstatePropertyOffer(models.Model):
@@ -39,6 +40,16 @@ class EstatePropertyOffer(models.Model):
             if offer.date_deadline:
                 offer.validity = (offer.date_deadline - offer.create_date.date()).days
 
+    @api.model
+    def create(self, vals_list):
+        model = self.env['estate_property'].browse(vals_list['property_id'])
+        if model.best_offer > vals_list['price']:
+            raise UserError(_("Can't create an offer lower than %.2f",model.best_offer))
+        created = super().create(vals_list)
+        if model and model.state == 'new':
+            model.state = 'offer_received'
+        return created
+
     def confirm_offer(self):
         for offer in self:
             if not offer.status:
@@ -46,22 +57,13 @@ class EstatePropertyOffer(models.Model):
                 offer.property_id.buyer_id = self.partner_id
                 offer.property_id.selling_price = self.price
                 offer.property_id.state = 'offer_accepted'
-                return True
-            raise UserError(f'You can not confirm an {offer.status} offer')
+            else:
+                raise UserError(_("You can not confirm an %s offer",offer.status))
 
     def refuse_offer(self):
         for offer in self:
             if not offer.status:
                 offer.status = "refused"
-                return True
-            raise UserError(f'You can not refuse an {offer.status} offer')
-
-    @api.model
-    def create(self, vals_list):
-        model = self.env['estate_property'].browse(vals_list['property_id'])
-        if model.best_offer > vals_list['price']:
-            raise UserError('Can\'t create an offer lower than '+str(model.best_offer))
-        created = super().create(vals_list)
-        if model and model.state == 'new':
-            model.state = 'offer_received'
-        return created
+            else:
+                raise UserError(_("You can not refuse an %s offer",offer.status))
+        return True

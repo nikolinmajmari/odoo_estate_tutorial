@@ -1,0 +1,10 @@
+{
+    "python.autoComplete.extraPaths": [
+        "C:\\Users\\User\\Documents\\projects\\odoo",
+        "${workspaceFolder}/../odoo"
+    ],
+    "python.analysis.extraPaths": [
+        "C:\\Users\\User\\Documents\\projects\\odoo",
+        "${workspaceFolder}/../odoo"
+    ]
+}

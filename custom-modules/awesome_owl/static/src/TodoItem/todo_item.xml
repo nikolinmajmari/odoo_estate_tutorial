@@ -2,15 +2,17 @@
 <templates>
     <t t-name="awesome_owl.todo_item">
         <div class="card p-2" t-att-class="{'text-muted text-decoration-line-through':props.isCompleted}">
-           <div class="d-flex flex-row gap-4 mb-2">
-                <label class="">
-                    <b><t t-esc="props.id"/></b>.
-                </label>
-                <label class="">
-                    <t t-esc="props.description"/>
-                </label>
-                <input type="checkbox" t-on-click="()=>props.toggle()" class="form-check-input" t-att-checked="props.isCompleted"/>
-                <button t-on-click="()=>props.remove()" class="btn btn-sm btn-danger"><span class="fa fa-remove"/></button>
+           <div class="d-flex flex-row justify-content-between mb-2">
+                <div class="d-flex flex-row gap-4">
+                    <label class="">
+                        <b><t t-esc="props.id"/></b>.
+                    </label>
+                    <input style="cursor:pointer" type="checkbox" t-on-click="()=>props.toggle()" class="form-check-input" t-att-checked="props.isCompleted"/>
+                    <label class="">
+                        <t t-esc="props.description"/>
+                    </label>
+                </div>
+                <button t-on-click="()=>props.remove()" class="btn btn-sm btn-rounded btn-danger"><span class="fa fa-remove"/></button>
            </div>
         </div>
     </t>

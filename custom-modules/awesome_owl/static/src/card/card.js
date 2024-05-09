@@ -7,11 +7,23 @@ export class Card extends Component {
     static components = {};
     static props = {
         title: {type: String},
-        content: {type: String},
+        slots:{type:Object}
     };
 
     setup() {
-        
+        this.state = useState({
+            collapsed : false
+        })
+    }
+
+    
+
+    collapse(){
+        this.state.collapsed = true;
+    }
+
+    expand(){
+        this.state.collapsed = false;
     }
 
 

@@ -2,12 +2,26 @@
 <templates xml:space="preserve">
 
     <t t-name="awesome_owl.card">
-        <div class="card d-inline-block m-2" style="width: 18rem;">
+        <div class="card d-inline-block m-2 w-25">
+            <div class="card-header d-flex flex-row justify-content-between">
+                <t t-out="props.title"/>
+                  <t t-if="state.collapsed">
+                    <span t-on-click="this.expand">
+                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </span>
+                  </t>
+                  <t t-else="">
+                   <span class="" t-on-click="this.collapse">
+                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                   </span>
+                  </t>
+            </div>
             <div class="card-body">
-                <h5 class="card-title"><t t-out="props.title"/></h5>
-                <p class="card-text">
-                    <t t-out="props.content"/>
-                </p>
+               <div class="o_animate o_anim_fade_in" style="animation-duration: 2s !important; animation-delay: 1s !important;">
+                <t t-if="!state.collapsed">
+                    <t t-slot="default" t-transition="fade"/>
+                </t>
+               </div>
             </div>
         </div>
     </t>

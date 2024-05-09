@@ -4,15 +4,27 @@
     <t t-name="awesome_owl.playground">
         <div class="p-3">
             hello world
-            <Counter onChange.bind="updateSum"/>
             <br/>
-            <Counter onChange.bind="updateSum"/>
+            <div class="d-flex flex-row align-items-start">
+                <Card title="'Counter 1'">
+                    <Counter onChange.bind="updateSum"/>
+                </Card>
+                <Card title="'Counter 2'">
+                    <Counter onChange.bind="updateSum"/>
+                </Card>
+            </div>
+            <span class="ml-4">Sum : <t t-esc="this.state.sum"/></span>
             <br/>
-            <span>Sum : <t t-esc="this.state.sum"/></span>
-            <br/>
-            <Card title="'Title 1'" content="this.html"/>
-            <Card title="'Title 2'" content="'Other html'"/>
-            <div></div>
+            <div class="d-flex flex-row align-items-start">
+                <Card title="'Title 1'">
+                    <t t-out="this.html"/>
+                </Card>
+                <Card title="'Title 2'">
+                    <span>
+                        Other html
+                    </span>
+                </Card>
+            </div>
             <br/>
             <br/>
             <TodoList/>

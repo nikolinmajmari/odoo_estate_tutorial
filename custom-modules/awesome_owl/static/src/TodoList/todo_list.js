@@ -19,6 +19,15 @@ export class TodoList extends Component {
         useAutoFocus('input-ref');
     }
 
+
+    get countDone(){
+        return this.todos.filter(t=>t.isCompleted).length
+    }
+
+    get count(){
+        return this.todos.length;
+    }
+
     /**
      * 
      * @param {number} id 

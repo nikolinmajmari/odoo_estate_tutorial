@@ -1,6 +1,7 @@
 /** @odoo-module **/
 
 import {Component,useState} from "@odoo/owl";
+import { Center } from "../center/center";
 
 export class Counter  extends Component{
 
@@ -9,7 +10,9 @@ export class Counter  extends Component{
     static props = {
         onChange: {type: Function}
     }
-    
+    static components = {
+        Center
+    }
     setup(){
         console.log("Counter::setup");
         this.state = useState({value: 0})

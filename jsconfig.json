@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "allowSyntheticDefaultImports": false,
+        "baseUrl": "./",
+        "paths": {
+          "@web/*": ["../odoo/addons/web/static/src/*"],
+          "@odoo/owl":["./node_modules/@odoo/owl/dist/types/owl.d.ts"]
+        },
+      },
+      "exclude": ["node_modules", "dist"]
+}

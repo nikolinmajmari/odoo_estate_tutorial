@@ -7,9 +7,41 @@
                 <button t-on-click="openCustomers" class="btn btn-primary">Customers </button>
                 <button t-on-click="openLeeds" class="btn btn-secondary">Leeds </button>
             </t>
-             <DashboardItem>Hello Dashboard Item 1</DashboardItem>
-             <DashboardItem size="2">Hello Dashboard Item 2</DashboardItem>
-             <DashboardItem>Hello papas 3</DashboardItem>
+             <DashboardItem>
+                <label>Average amount of T-shirt ordered in this month</label>
+                <br/>
+                <div class="statistics">
+                    <span><t t-out="state.result.average_quantity"/></span>
+                </div>
+             </DashboardItem>
+             <DashboardItem size="2"> 
+                <label>Average time for an order to go from new to sent or canceled</label>
+                <br/>
+                <div class="statistics">
+                    <span><t t-out="state.result.average_time"/></span>
+                </div>
+             </DashboardItem>
+             <DashboardItem>
+                <label>Number of orders this month</label>
+                <br/>
+                <div class="statistics">
+                    <span><t t-out="state.result.nb_new_orders"/></span>
+                </div>
+             </DashboardItem>
+             <DashboardItem>
+                <label>Number of canceled orders this month</label>
+                <br/>
+                <div class="statistics">
+                    <span><t t-out="state.result.nb_cancelled_orders"/></span>
+                </div>
+             </DashboardItem>
+             <DashboardItem>
+                <label>Total Amount of new Orders This Month</label>
+                <br/>
+                <div class="statistics">
+                    <span><t t-out="state.result.total_amount"/></span>
+                </div>
+             </DashboardItem>
         </Layout>
     </t>
 

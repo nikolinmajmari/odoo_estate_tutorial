@@ -6,32 +6,31 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import {Layout} from "@web/search/layout";
 import { DashboardItem } from "./DashboardItem/dashboard-item";
+import { PieChart } from "./PieChart/pieChart";
+
 
 class AwesomeDashboard extends Component {
     static template = "awesome_dashboard.AwesomeDashboard";
 
     static components = {
-        Layout,DashboardItem
+        Layout,DashboardItem,PieChart
     }
 
     setup(){
         /// services 
         this.action = useService("action");
         this.service = useService("awesome_dashboard.statistics");
-       // this.statistics = useService('awesome_dashboard.statistics');
-       // console.log(useService('awesome_dashboard.statistics'));
-        /// state 
-
         this.state = useState({result:{}})
+
         onWillStart( async()=>{
             const result = await this.service.loadStatistics();
-            //console.log(result);
-            this.state.result = result;
-            ///await this.statistics.data;
+            this.state.result = result; 
         })
     }
 
-
+    get data(){
+        return this.state.result;
+    }
 
     openCustomers(){
         this.action.doAction("base.action_partner_form")
@@ -46,4 +45,4 @@ class AwesomeDashboard extends Component {
     }
 }
 
-registry.category("actions").add("awesome_dashboard.dashboard", AwesomeDashboard);
+registry.category("lazy_components").add("AwesomeDashboard", AwesomeDashboard);

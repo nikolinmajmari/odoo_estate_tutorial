@@ -26,7 +26,7 @@
                     <div class="oe_button_box" name="button_box">
                         <button type="action"
                                 class="oe_stat_button pull-right"
-                                name="estate.estate_property_offer_action"
+                                name="%(estate_property_offer_action)d"
                                 icon="fa-book">
                             Offers (<field name="offer_count" readonly="True"/>)
                         </button>

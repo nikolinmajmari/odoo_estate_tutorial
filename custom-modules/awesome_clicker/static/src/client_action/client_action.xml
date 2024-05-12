@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="awesome_clicker.client">
+       <div class="container">
+            <div class="d-flex flex-row align-items-center p-4" style="gap:15px">
+                <label>Clicks : <t t-out="this.clicker.counter"/></label>
+                <button class="btn btn-primary" t-on-click="increment">Increment</button>
+            </div>
+       </div>
+    </t>
+
+</templates>

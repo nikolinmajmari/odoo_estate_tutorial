@@ -69,14 +69,19 @@ const statistics = {
     dependencies: ["rpc"],
     start(env,{rpc}){
 
+        const statistics = reactive({isReady:false});
 
-        var _loadStatistics = memoize(function(){
-            return rpc("/awesome_dashboard/statistics");
-        });
-
-        return {
-            loadStatistics: _loadStatistics,
+        // var _loadStatistics = memoize(function(){
+        //     return rpc("/awesome_dashboard/statistics");
+        // });
+        var loadData = async function(){
+            const updates = await rpc("/awesome_dashboard/statistics");
+            Object.assign(statistics,updates,{isReady:true});
         }
+        setInterval(loadData,10000);
+        loadData();
+
+        return statistics;
 
     }
 }

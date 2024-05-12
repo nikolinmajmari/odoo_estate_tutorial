@@ -4,84 +4,62 @@ import { registry } from "@web/core/registry";
 import { NumberCard } from "./NumberCard/numberCard";
 import { PieChart } from "./PieChart/pieChart";
 
-export const dashboardItems = [
+const dashboardItems = [
     {
-        id:"average_quantity",
-        description : "",
-        show: true,
+        id: "average_quantity",
+        description: "Average amount of t-shirt",
         Component: NumberCard,
-        size: 2,
-        props:(data)=>{
-            return ({
-                title: "Average t-shirt ordered amount",
-                value: data.average_quantity,
-            });
-        },
-
+        props: (data) => ({
+            title: "Average amount of t-shirt by order this month",
+            value: data.average_quantity,
+        })
     },
     {
-        id:"average_time",
-        description : "",
-        show: true,
+        id: "average_time",
+        description: "Average time for an order",
         Component: NumberCard,
-        size: 3,
-        props:(data)=>({
-            title: "Average Time",
+        props: (data) => ({
+            title: "Average time for an order to go from 'new' to 'sent' or 'cancelled'",
             value: data.average_time,
-        }),
-        
+        })
     },
     {
-        id:"nb_cancelled_orders",
-        description : "",
+        id: "number_new_orders",
+        description: "New orders this month",
         Component: NumberCard,
-        size: 2,
-        
-        show: true,
-        props:(data)=>({
-            title: "Number of canceled orders",
-            value: data.nb_cancelled_orders,
-        }),
-        
-    },
-    {
-        id:"nb_new_orders",
-        description : "",
-        
-        show: true,
-        Component: NumberCard,
-        props:(data)=>({
-            title: "Number of new orders",
+        props: (data) => ({
+            title: "Number of new orders this month",
             value: data.nb_new_orders,
-        }),
-        
+        })
     },
     {
-        id:"total_amount",
-        description : "",
-        
-        show: true,
+        id: "cancelled_orders",
+        description: "Cancelled orders this month",
         Component: NumberCard,
-        size: 2,
-        props:(data)=>({
-            title: "Total Amount",
-            value: data.total_amount,
-        }),
-        
+        props: (data) => ({
+            title: "Number of cancelled orders this month",
+            value: data.nb_cancelled_orders,
+        })
     },
     {
-        id:"orders_by_size",
-        description : "",
-        
-        show: true,
+        id: "amount_new_orders",
+        description: "amount orders this month",
+        Component: NumberCard,
+        props: (data) => ({
+            title: "Total amount of new orders this month",
+            value: data.total_amount,
+        })
+    },
+    {
+        id: "pie_chart",
+        description: "Shirt orders by size",
         Component: PieChart,
         size: 2,
-        props:(data)=>({
-            title: "Orders by size chart",
-            value: data.orders_by_size,
-        }),
-        
-    },
-];
+        props: (data) => ({
+            title: "Shirt orders by size",
+            values: data.orders_by_size,
+        })
+    }
+]
 
 registry.category("data").add('awesome_dashboard_items',dashboardItems);

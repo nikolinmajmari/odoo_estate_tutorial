@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="awesome_dashboard.ConfigModal">
+         <Modal close="props.close">
+            <div class="modal-header">
+                <h4 class="modal-title">Dashboard Items Configuration</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <t t-foreach="this.state.items" t-as="item" t-key="item.id">
+                    <div class="form-check">
+                        <input t-on-click="this.createToggleItemHandle(item.id)" class="form-check-input" type="checkbox" t-att-checked="item.show"/>
+                        <label class="form-check-label" for="item.id">
+                            <t t-out="item.id"/>
+                        </label>
+                    </div>
+                </t>
+            </div>
+            <div class="modal-footer">
+                <button type="button" t-on-click="this.save" class="btn btn-primary o-default-button">Done</button>
+            </div>
+        </Modal>
+    </t>
+
+</templates>

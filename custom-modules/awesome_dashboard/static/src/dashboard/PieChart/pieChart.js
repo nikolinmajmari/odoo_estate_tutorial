@@ -8,12 +8,12 @@ export class PieChart extends Component {
     static template = "awesome_dashboard.pie-chart";
     static components = {DashboardItem};
     static props = {
-        value:{type:Object}
+        values:{type:Object}
     };
 
 
     get propData(){
-        return this.props.value
+        return this.props.values
     }
 
     setup() {
@@ -34,9 +34,9 @@ export class PieChart extends Component {
         return {
             type: 'pie',
             data: {
-              labels: Object.keys(this.props.value),
+              labels: Object.keys(this.props.values),
               datasets: [{
-                data: Object.values(this.props.value),
+                data: Object.values(this.props.values),
                 backgroundColor: [
                     'rgb(255, 99, 132)',
                     'rgb(54, 162, 235)',
@@ -44,6 +44,9 @@ export class PieChart extends Component {
                 ],
               }]
             },
+            onClick:function(e){
+                console.log(e);
+            }
         };
     }
 
@@ -62,6 +65,9 @@ export class PieChart extends Component {
             this.chartRef.el, 
             this.getChartConfig()
         );
+        this.chartRef.el.addEventListener('click',function(e){
+            console.log(e);
+        })
     }
 }
 

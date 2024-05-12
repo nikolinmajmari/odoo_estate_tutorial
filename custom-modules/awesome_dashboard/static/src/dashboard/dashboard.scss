@@ -4,7 +4,39 @@
 
 .o_dashboard .statistics{
     font-size: 36px;
+    margin: auto;
     color: green;
     text-align: center;
     vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.o_dashboard .statistics span{
+    padding-bottom: 20px;
+}
+
+.o_dashboard_wrapper{
+    display: block;
+    overflow-y: auto ;
+    width: 100%;
+    height: 100%;
+}
+
+.o_dashboard_container{
+    display: flex;
+    margin: 20px 40px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
+@media screen and (min-width:600px) {
+    .o_dashboard_container{
+        flex-direction: row;
+        align-items: stretch;
+        flex-wrap: wrap;
+    }
 }

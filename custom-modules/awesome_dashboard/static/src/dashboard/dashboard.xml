@@ -6,50 +6,17 @@
              <t t-set-slot="layout-buttons">
                 <button t-on-click="openCustomers" class="btn btn-primary">Customers </button>
                 <button t-on-click="openLeeds" class="btn btn-secondary">Leeds </button>
+                <button t-on-click="showModal"><i class="fa fa-gear"></i></button>
             </t>
-             <DashboardItem>
-                <label>Average amount of T-shirt ordered in this month</label>
-                <br/>
-                <div class="statistics">
-                    <span><t t-out="this.data.average_quantity"/></span>
-                </div>
-             </DashboardItem>
-             <DashboardItem size="2"> 
-                <label>Average time for an order to go from new to sent or canceled</label>
-                <br/>
-                <div class="statistics">
-                    <span><t t-out="this.data.average_time"/></span>
-                </div>
-             </DashboardItem>
-             <DashboardItem>
-                <label>Number of orders this month</label>
-                <br/>
-                <div class="statistics">
-                    <span><t t-out="this.data.nb_new_orders"/></span>
-                </div>
-             </DashboardItem>
-             <DashboardItem>
-                <label>Number of canceled orders this month</label>
-                <br/>
-                <div class="statistics">
-                    <span><t t-out="this.data.nb_cancelled_orders"/></span>
-                </div>
-             </DashboardItem>
-             <DashboardItem>
-                <label>Total Amount of new Orders This Month</label>
-                <br/>
-                <div class="statistics">
-                    <span><t t-out="this.data.total_amount"/></span>
-                </div>
-             </DashboardItem>
-
-             <DashboardItem>
-                <label>Shirt orders by size</label>
-                <br/>
-                <div class="statistics">
-                    <PieChart data="this.data.orders_by_size"/>
-                </div>
-             </DashboardItem>
+             <t t-foreach="this.items" t-as="item" t-key="item.id">
+                <t t-set="itemProps" t-value="item.props ? item.props(this.data):{'data':this.data}"/>
+                <t t-if="this.config.showItems.includes(item.id)">
+                    <t t-component="item.Component" t-props="itemProps"/>
+                </t>
+             </t>
+             <t t-if="modal.show">
+                <ConfigModal update.bind="updateConfig" config="this.itemInfo" close.bind="closeModal"/>
+             </t>
         </Layout>
     </t>
 

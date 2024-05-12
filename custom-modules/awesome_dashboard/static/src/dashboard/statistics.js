@@ -34,7 +34,7 @@ function memoize(func){
                 for(const key in data){
                     entry[key] = data[key];
                 }
-            },1000);
+            },5000);
         }
         console.log(cache,cache.get(args[0]));
         return cache.get(args[0]);

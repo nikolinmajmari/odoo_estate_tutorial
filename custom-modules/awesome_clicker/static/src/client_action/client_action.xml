@@ -9,16 +9,44 @@
                 <br/>
             </div>
              <h4>Bots</h4>
-            <div class="card">
-                <h5 class="card-header">
-                    <t t-out="this.clicker.clickBots"/>x Clickbots 
-                    (<t t-out="this.clicker.clickBots*10"/> Clicks / 10 Seconds )
-                    <i class="fa fa-android"></i>
-                    </h5>
-                <div class="card-body">
-                    <button t-on-click="this.buyClickBot" class="btn btn-primary" t-att-disabled="!this.canBuyBots">Buy a ClickBot</button>
+             <div class="d-flex flex-row flex-wrap gap-3 mb-3">
+                <div class="card">
+                    <h5 class="card-header" t-attf-data-tooltip="{{this.clicker.clickBots*10}} clicks per 10s">
+                        <t t-out="this.clicker.clickBots"/>x Clickbots 
+                        (10 Clicks / 10 Seconds )
+                        <i class="fa fa-android"></i>
+                        </h5>
+                    <div class="card-body">
+                        <button t-on-click="buyClickBot" class="btn btn-primary" t-att-disabled="!this.canBuyClickBots">
+                            Buy a ClickBot (1000 Clicks)
+                        </button>
+                    </div>
                 </div>
-            </div>
+                <div class="card">
+                    <h5 class="card-header" t-attf-data-tooltip="{{this.clicker.bigBots*100}} clicks per 10s">
+                        <t t-out="this.clicker.bigBots"/>x Bigbots 
+                        (100 Clicks / 10 Seconds )
+                        <i class="fa fa-android"></i>
+                    </h5>
+                    <div class="card-body">
+                        <button t-on-click="buyBigBot" class="btn btn-primary" t-att-disabled="!this.canBuyBigBots">
+                            Buy a ClickBot (5000 Clicks)
+                        </button>
+                    </div>
+                </div>
+                 <div class="card">
+                    <h5 class="card-header">
+                        <t t-out="this.clicker.multiplyFactor"/>x Bot Multiply Factor 
+                        ( x <t t-out="this.clicker.multiplyFactor"/> for every bot clicks )
+                        <i class="fa fa-android"></i>
+                    </h5>
+                    <div class="card-body">
+                        <button t-on-click="buyMultiplyFactor" class="btn btn-primary" t-att-disabled="!this.canBuyMultiplyFactor">
+                            Buy a bot multiply factor (50000 Clicks)
+                        </button>
+                    </div>
+                </div>
+             </div>
 
        </div>
     </t>

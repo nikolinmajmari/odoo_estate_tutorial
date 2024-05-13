@@ -14,8 +14,16 @@ export class ClientAction extends Component {
     };
 
     /// geters 
-    get canBuyBots(){
-        return this.clicker.canBuyBots;
+    get canBuyClickBots(){
+        return this.clicker.canBuyClickBots();
+    }
+
+    get canBuyBigBots(){
+        return this.clicker.canBuyBigBots();
+    }
+
+    get canBuyMultiplyFactor(){
+        return this.clicker.canIncreaseMultiplyFactor();
     }
 
 
@@ -31,7 +39,21 @@ export class ClientAction extends Component {
     }
 
     buyClickBot(e){
-        this.clicker.buyClickBot();
+        if(this.canBuyClickBots){
+            this.clicker.buyClickBot();
+        }
+    }
+
+    buyBigBot(e){
+        if(this.canBuyBigBots){
+            this.clicker.buyBigBot();
+        }
+    }
+
+    buyMultiplyFactor(e){
+        if(this.canBuyMultiplyFactor){
+            this.clicker.increaseMultiplyFactor();
+        }
     }
 }
 

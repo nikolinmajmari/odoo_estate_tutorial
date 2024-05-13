@@ -4,9 +4,22 @@
     <t t-name="awesome_clicker.client">
        <div class="container">
             <div class="d-flex flex-row align-items-center p-4" style="gap:15px">
-                <label>Clicks : <t t-out="this.clicker.counter"/></label>
-                <button class="btn btn-primary" t-on-click="increment">Increment</button>
+                <label>Clicks : <ClickValue value="this.clicker.counter"/></label>
+                <button class="btn btn-primary" data-clicker-increment="true" t-on-click="increment">Increment</button>
+                <br/>
             </div>
+             <h4>Bots</h4>
+            <div class="card">
+                <h5 class="card-header">
+                    <t t-out="this.clicker.clickBots"/>x Clickbots 
+                    (<t t-out="this.clicker.clickBots*10"/> Clicks / 10 Seconds )
+                    <i class="fa fa-android"></i>
+                    </h5>
+                <div class="card-body">
+                    <button t-on-click="this.buyClickBot" class="btn btn-primary" t-att-disabled="!this.canBuyBots">Buy a ClickBot</button>
+                </div>
+            </div>
+
        </div>
     </t>
 

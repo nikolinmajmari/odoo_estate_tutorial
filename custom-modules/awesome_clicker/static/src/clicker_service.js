@@ -1,19 +1,36 @@
 /** @odoo-module **/
-import { reactive } from "@odoo/owl";
+import { EventBus, reactive } from "@odoo/owl";
 import { registry } from "@web/core/registry";
+import { ClickerModel } from "./clicker_model";
 
 const client = {
-    dependencies : [],
-    start(env,{}){
-        const state = reactive({counter:0});
+    dependencies : ["effect"],
+    start(env,{effect}){
+
+        const bus = new EventBus();
+        bus.addEventListener("MILESTONE_1k",function(){
+            effect.add({
+                type: "rainbow_man", // can be omitted, default type is already "rainbow_man"
+                message: "1K Milestone reached! Now you can buy clickbots!",
+            });
+        });
+
+        const model =  new ClickerModel(bus);
+        setInterval(()=>{
+            model.counter += model.clickBots*10;
+        },10000);
+        return model;
+
+        const state = reactive({
+            counter:1234,
+            level: 0,
+            clickBots: 0,
+        });
         return {
             state,
-            increment(){
-                state.counter ++;
+            increment(inc){
+                state.counter +=inc;
             },
-            incrementBy10(){
-                state.counter += 10;
-            }
         }
     }
 }

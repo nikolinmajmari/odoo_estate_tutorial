@@ -2,17 +2,36 @@
 
 import { Component, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
-import { useService } from "@web/core/utils/hooks";
+import { useClicker } from "../useClicker";
+import { ClickValue } from "../click_value/click_value";
 
 export class ClientAction extends Component {
     static template = "awesome_clicker.client";
-    static components = {};
-    static props = {};
+    static components = {
+        ClickValue
+    };
+    static props = {
+    };
 
+    /// geters 
+    get canBuyBots(){
+        return this.clicker.canBuyBots;
+    }
+
+
+    /// setup 
     setup() {
-        const {state,incrementBy10} = useService("awesome_clicker.clicker_service");
-        this.clicker = useState(state);
-        this.increment = incrementBy10;
+        this.clicker = useClicker();
+    }
+
+
+    /// handlers
+    increment(e){
+        this.clicker.increment(10)
+    }
+
+    buyClickBot(e){
+        this.clicker.buyClickBot();
     }
 }
 

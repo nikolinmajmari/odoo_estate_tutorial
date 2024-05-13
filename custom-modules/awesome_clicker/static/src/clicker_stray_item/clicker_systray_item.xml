@@ -3,8 +3,8 @@
 
     <t t-name="awesome_clicker.systrai_item">
         <div style="gap:10px" class="d-flex flex-row align-items-center text-white px-2">
-            <label>Clicks : <t t-out="this.clicker.counter"/></label>
-            <button t-ref='clicker-btn-ref' class="btn btn-secondary btn-sm" t-on-click="onCounterClick"><i class="fa fa-plus"></i></button>
+            <span>Clicks : <ClickValue value="this.clicker.counter"/></span>
+            <button t-ref='clicker-btn-ref' data-clicker-increment="true" class="btn btn-secondary btn-sm" t-on-click="onCounterClick"><i class="fa fa-plus"></i></button>
             <button class="btn btn-info btn-sm" t-on-click="onOpenClick">Open</button>
         </div>
     </t>

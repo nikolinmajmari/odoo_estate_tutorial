@@ -17,10 +17,7 @@ const client = {
 
         const model =  new ClickerModel(bus);
         setInterval(()=>{
-            model.increment(model.clickBots*10);
-        },10000);
-        setInterval(()=>{
-            model.increment(model.bigBots*100);
+            model.updateBotsPoints();
         },10000);
         return model;
 

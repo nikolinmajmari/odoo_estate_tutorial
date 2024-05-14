@@ -1,6 +1,7 @@
 /** @odoo-module **/
 import { EventBus, toRaw } from "@odoo/owl";
 import { Reactive } from "@web/core/utils/reactive";
+import { chooseReward } from "./util";
 
 
 export const CLICKBOT_PRICE= 1000;
@@ -19,14 +20,35 @@ export class ClickerModel extends Reactive{
         super(...arguments);
 
         this.counter = 990;
-        this.clickBots = 0;
-        this.bigBots = 0;
+        this.bots = {
+            clickBots:{
+                type: "Click Bot",
+                purchased: 0,
+                level: 1,
+                price: 1000,
+                increment: 10
+            },
+            bigBots: {
+                type: "Big Bot",
+                purchased: 0,
+                level: 2,
+                price: 5000,
+                increment: 100
+            }
+        };
+        for(const key in this.bots){
+            Object.assign(this.bots[key],{id:key});
+        }
         this.level = 0;
-        this.multiplyFactor = 1;
+        this.multipler = 1;
         this.bus = bus;
         this.eventStatus = toRaw({
             'MILESTONE_1k':false
         })
+    }
+
+    get botKeys(){
+        return Object.keys(this.bots);
     }
 
 
@@ -60,40 +82,53 @@ export class ClickerModel extends Reactive{
         this.afterCounterUpdate();
     }
 
-    canBuyClickBots(){
-        return this.level >= 1 && this.counter >= CLICKBOT_PRICE;
+    buyBot(type){
+        this.bots[type].purchased ++;
+        this.counter -= this.bots[type].price;
     }
 
-    buyClickBot(){
-        this.clickBots ++ ; 
-        this.counter -= 1000;
+    canBuyBots(type){
+        return this.level >= this.bots[type].level
+        && this.counter >= this.bots[type].price;
     }
 
+    // canBuyClickBots(){
+    //     return this.level >= this.bots.clickBots.level 
+    //     && this.counter >= this.bots.clickBots.price;
+    // }
 
-    canBuyBigBots(){
-        return this.level >= 2 && this.counter >= BIGBOT_PRICE;
-    }
+    // buyClickBot(){
+    //     this.bots.clickBots.purchased ++; 
+    //     this.counter -= this.bots.clickBots.price;
+    // }
 
-    buyBigBot(){
-        this.bigBots ++;
-        this.counter -= 5000;
-    }
+    // canBuyBigBots(){
+    //     return this.level >= this.bots.bigBots.level 
+    //         && this.counter >= this.bots.bigBots.price;
+    // }
 
+    // buyBigBot(){
+    //     this.bots.bigBots.purchased ++;
+    //     this.counter -= this.bots.bigBots.price;
+    // }
 
-    canIncreaseMultiplyFactor(){
+    canBuyMultipler(){
         return this.level >= 3 && this.counter >= MULTIPLY_PRICE;
     }
 
-    increaseMultiplyFactor(){
-        this.multiplyFactor ++;
+    increaseMultipler(){
+        this.multipler ++;
         this.counter -= 50000;
     }
 
-
     updateBotsPoints(){
-        this.increment(this.clickBots * 10 * this.multiplyFactor);
-        this.increment(this.bigBots * 100 * this.multiplyFactor);
+        for(const key in this.bots){
+            this.increment(this.bots[key].purchased * this.bots[key].increment * this.multipler);
+        }
     }
 
-
+    giveReward(){
+        const reward = chooseReward();
+        reward.apply(this);
+    }
 }

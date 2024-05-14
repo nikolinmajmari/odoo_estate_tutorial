@@ -1,13 +1,9 @@
 /** @odoo-module **/
 
-/**
- * 
- * @returns {{description: String, apply: (model:ClickerModel)=>void, minLevel: number, maxLevel: number,}[]}
- */
 function buildReward(){
     return [
         {
-            description: "Get 1 click",
+            description: "+ 1 click",
             apply(clicker) {
                     clicker.increment(1);
             },
@@ -16,27 +12,27 @@ function buildReward(){
         {
             description: "+ 1 Clickbot",
             apply(clicker) {
-                clicker.increment(1);
+                clicker.bots.clickBots.purchased += 1;
             },
             minLevel: 3,
         },
         {
-            description: "+ 1 Clickbot",
+            description: "+ 10 Clickbot",
             apply(clicker) {
-                clicker.increment(1);
+                clicker.bots.clickBots.purchased += 10;
             },
             minLevel: 2,
         },
         {
-            description: "Get 10 clicks",
+            description: "+ 2 bigBots",
             apply(clicker) {
-                    clicker.increment(10);
+                clicker.bots.bigBots.purchased += 10;
             },
             minLevel: 3,
             maxLevel: 4,
             },
         {
-            description: "Increase bot power!",
+            description: "+1 Multipler (Increase bot power)",
             apply(clicker) {
                     clicker.multipler += 1;
             },

@@ -18,15 +18,6 @@ export class ClientAction extends Component {
         return this.clicker.bots;
     }
 
-    getBot(id){
-        console.log(id,this.clicker.bots[id]);
-        return this.clicker.bots[id];
-    }
-
-    get canBuyMultipler(){
-        return this.clicker.canBuyMultipler();
-    }
-
 
     /// setup 
     setup() {
@@ -39,26 +30,7 @@ export class ClientAction extends Component {
         this.clicker.increment(10)
     }
 
-    buyBot(type){
-       return this.clicker.buyBot(type)
-    }
-
-    canBuyBot(type){
-        return this.clicker.canBuyBots(type)
-    }
-
-    // buyClickBot(){
-    //     if(this.canBuyClickBots){
-    //         this.clicker.buyClickBot();
-    //     }
-    // }
-
-    // buyBigBot(){
-    //     if(this.canBuyBigBots){
-    //         this.clicker.buyBigBot();
-    //     }
-    // }
-
+    
     buyMultipler(){
         if(this.canBuyMultipler){
             this.clicker.increaseMultipler();

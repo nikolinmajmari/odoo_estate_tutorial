@@ -10,16 +10,20 @@
             </div>
              <h4>Bots</h4>
              <div class="d-flex flex-row flex-wrap gap-3 mb-3">
-                <t t-foreach="this.bots" t-as="id" t-key="id">
+                <t t-foreach="this.bots" t-as="key" t-key="id">
+                    <t t-set="bot" t-value="this.clicker.getBot(key)"/>
                     <div class="card">
-                        <h5 class="card-header" t-attf-data-tooltip="{{getBot(id).increment*10}} clicks per 10s">
-                            <t t-out="getBot(id).purchased"/>x <t t-out="getBot(id).type"/>s 
-                            (<t t-out="getBot(id).increment"/>t Clicks / 10 Seconds )
+                        <h5 class="card-header" t-attf-data-tooltip="{{bot.increment*10}} clicks per 10s">
+                            <t t-out="bot.purchased"/>x <t t-out="bot.type"/>s 
+                            (<t t-out="bot.increment"/>t Clicks / 10 Seconds )
                             <i class="fa fa-android"></i>
                             </h5>
                         <div class="card-body">
-                            <button t-on-click="()=>this.buyBot(id)" class="btn btn-primary" t-att-disabled="!this.canBuyBot(id)">
-                                Buy a <t t-out="getBot(id).type"/> (1000 Clicks)
+                            <button t-on-click="()=>this.clicker.buyBot(key)" 
+                                    class="btn btn-primary" 
+                                    t-att-disabled="!this.clicker.canBuyBots(key)"
+                                    >
+                                Buy a <t t-out="bot.type"/> (<t t-out="bot.price"/> Clicks)
                             </button>
                         </div>
                     </div>
@@ -31,7 +35,7 @@
                         <i class="fa fa-android"></i>
                     </h5>
                     <div class="card-body">
-                        <button t-on-click="buyMultipler" class="btn btn-primary" t-att-disabled="!this.canBuyMultipler">
+                        <button t-on-click="()=>this.clicker.buyMultipler()" class="btn btn-primary" t-att-disabled="!this.clicker.canBuyMultipler()">
                             Buy a bot multiply factor (50000 Clicks)
                         </button>
                     </div>

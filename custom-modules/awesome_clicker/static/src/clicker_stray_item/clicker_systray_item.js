@@ -5,6 +5,7 @@ import { useService } from "@web/core/utils/hooks";
 import { useClicker } from "../useClicker";
 import { humanNumber } from "@web/core/utils/numbers";
 import { ClickValue } from "../click_value/click_value";
+import { doClickerAction } from "../util";
 
 
 export class ClickerSytrayItem extends Component {
@@ -46,12 +47,7 @@ export class ClickerSytrayItem extends Component {
 
 
     onOpenClick(){
-        this.action.doAction({
-            type: "ir.actions.client",
-            tag: "awesome_clicker.client_action",
-            target: "new",
-            name: "Clicker"
-        })
+        doClickerAction(this.action);
     }
 }
 

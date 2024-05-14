@@ -10,7 +10,6 @@ import { ClickerModel } from "./clicker_model";
  */
 export function useClicker(){
     /** @var {{ClickerModel}} model */
-    console.log('service',useService('awesome_clicker.clicker_service'))
     window.clicker = useService('awesome_clicker.clicker_service');;
     const clicker =  useService('awesome_clicker.clicker_service');
     return useState(clicker);

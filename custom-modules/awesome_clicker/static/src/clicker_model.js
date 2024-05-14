@@ -1,7 +1,8 @@
 /** @odoo-module **/
 import { EventBus, toRaw } from "@odoo/owl";
 import { Reactive } from "@web/core/utils/reactive";
-import { chooseReward } from "./util";
+import { choose, chooseReward } from "./util";
+import { rewards } from "./rewards";
 
 
 export const CLICKBOT_PRICE= 1000;
@@ -14,9 +15,12 @@ export const LEVELS = {
     3: 100000,
 }
 
+/**
+ * 
+ */
 export class ClickerModel extends Reactive{
 
-    constructor(bus){
+    constructor(){
         super(...arguments);
 
         this.counter = 990;
@@ -36,20 +40,75 @@ export class ClickerModel extends Reactive{
                 increment: 100
             }
         };
-        for(const key in this.bots){
-            Object.assign(this.bots[key],{id:key});
-        }
         this.level = 0;
         this.multipler = 1;
-        this.bus = bus;
+        this.bus = new EventBus();
         this.eventStatus = toRaw({
             'MILESTONE_1k':false
-        })
+        });
+
+        //// side effects 
+        setInterval(()=>{
+            this.incrementBotPoints();
+        },10000);
     }
 
-    get botKeys(){
-        return Object.keys(this.bots);
+    /**
+     * 
+     * @param {number} inc 
+     */
+    increment(inc){
+        this.counter += inc;
+        this.checkForAndTrigger1kMilestoneEvent();
+        this.updateLevel();
     }
+
+    /**
+     * 
+     * @param {string} key
+     * @returns {{type: String, purchased: number, level: number, price: number, increment: number}} 
+     */
+    getBot(key){
+        return this.bots[key];
+    }
+
+    /**
+     * 
+     * @param {string} type 
+     */
+    buyBot(type){
+        this.getBot(type).purchased ++;
+        this.counter -= this.getBot(type).price;
+    }
+
+    /**
+     * 
+     * @param {string} type 
+     * @returns 
+     */
+    canBuyBots(type){
+        return this.level >= this.bots[type].level
+        && this.counter >= this.bots[type].price;
+    }
+
+    /// multiplier
+
+    /**
+     * 
+     * @returns 
+     */
+    canBuyMultipler(){
+        return this.level >= 3 && this.counter >= MULTIPLY_PRICE;
+    }
+
+    /**
+     * 
+     */
+    buyMultipler(){
+        this.multipler ++;
+        this.counter -= 50000;
+    }
+
 
 
     updateLevel(){
@@ -71,64 +130,19 @@ export class ClickerModel extends Reactive{
         }
     }
 
-
-    afterCounterUpdate(){
-        this.checkForAndTrigger1kMilestoneEvent();
-        this.updateLevel();
-    }
-
-    increment(inc){
-        this.counter += inc;
-        this.afterCounterUpdate();
-    }
-
-    buyBot(type){
-        this.bots[type].purchased ++;
-        this.counter -= this.bots[type].price;
-    }
-
-    canBuyBots(type){
-        return this.level >= this.bots[type].level
-        && this.counter >= this.bots[type].price;
-    }
-
-    // canBuyClickBots(){
-    //     return this.level >= this.bots.clickBots.level 
-    //     && this.counter >= this.bots.clickBots.price;
-    // }
-
-    // buyClickBot(){
-    //     this.bots.clickBots.purchased ++; 
-    //     this.counter -= this.bots.clickBots.price;
-    // }
-
-    // canBuyBigBots(){
-    //     return this.level >= this.bots.bigBots.level 
-    //         && this.counter >= this.bots.bigBots.price;
-    // }
-
-    // buyBigBot(){
-    //     this.bots.bigBots.purchased ++;
-    //     this.counter -= this.bots.bigBots.price;
-    // }
-
-    canBuyMultipler(){
-        return this.level >= 3 && this.counter >= MULTIPLY_PRICE;
-    }
-
-    increaseMultipler(){
-        this.multipler ++;
-        this.counter -= 50000;
-    }
-
-    updateBotsPoints(){
+    incrementBotPoints(){
         for(const key in this.bots){
             this.increment(this.bots[key].purchased * this.bots[key].increment * this.multipler);
         }
     }
 
-    giveReward(){
-        const reward = chooseReward();
-        reward.apply(this);
+    getReward(){
+        const availableRewards = rewards.filter((reward)=>{
+            return (!reward.minLevel || this.level >= reward.minLevel )
+            && (!reward.maxLevel || this.level <= reward.maxLevel )
+        });
+        const reward = choose(rewards);
+        this.bus.trigger("REWARD",reward);
+        return reward;
     }
 }

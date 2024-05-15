@@ -13,7 +13,7 @@ const client = {
         const model = new ClickerModel();
         //// presistence loads old data when browser is reloaded and updates 
         //// stored data every t seconds to prevent data loss
-        initObjectPresistence(model,CLICKER_MODEL_STORAGE_KEY,10000);
+        initObjectPresistence(model,CLICKER_MODEL_STORAGE_KEY,1000);
 
         model.bus.addEventListener("MILESTONE",function(event){
             console.log(event);

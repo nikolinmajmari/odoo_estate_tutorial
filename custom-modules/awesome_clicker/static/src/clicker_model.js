@@ -22,7 +22,7 @@ export class ClickerModel extends Reactive{
 
     constructor(){
         super(...arguments);
-
+        this.version = 3;
         this.counter = 990;
         this.bots = {
             clickBots:{
@@ -53,12 +53,18 @@ export class ClickerModel extends Reactive{
                 price: 1000000,
                 level: 4
             },
-            // peachTree:{
-            //     purchased: 0,
-            //     fruit: "pearch",
-            //     price: 20,
-            //     level: 4
-            // }
+            peachTree:{
+                purchased: 0,
+                fruit: "pearch",
+                price: 1000000,
+                level: 4
+            },
+            appleTree:{
+                purchased: 0,
+                fruit: "apple",
+                price: 1000000,
+                level: 4
+            }
         };
         this.fruits = {
             pear: 0,

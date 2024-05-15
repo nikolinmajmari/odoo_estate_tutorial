@@ -80,11 +80,20 @@ export class ClickerModel extends Reactive{
 
     get milestones(){
         return [
-            { clicks: 1000, unlocked : "ClickBot"},
+            { clicks: 1000, unlocked : "Click Bots"},
             { clicks: 5000, unlocked : "Big Bots"},
-            { clicks: 100000, unlocked: "Power Multipler"},
+            { clicks: 100000, unlocked: "Power Multiplers"},
             { clicks: 1000000, unlocked: "pear tree & cherry tree"}
         ];
+    }
+
+
+    get treesCount(){
+        return Object.values(this.trees).reduce((acc,tree)=>acc+tree.purchased,0);
+    }
+
+    get fruitsCount(){
+        return Object.values(this.fruits).reduce((acc,next)=>acc+next,0);
     }
 
     /**
@@ -102,6 +111,9 @@ export class ClickerModel extends Reactive{
      * @returns {{type: String, purchased: number, level: number, price: number, increment: number}} 
      */
     getBot(key){
+        if(!Object.keys(this.bots).includes(key)){
+            throw Error("Could not find bot with key"+key);
+        }
         return this.bots[key];
     }
 
@@ -111,8 +123,8 @@ export class ClickerModel extends Reactive{
      * @returns 
      */
     canBuyBots(type){
-        return this.level >= this.bots[type].level
-        && this.counter >= this.bots[type].price;
+        return this.level >= this.getBot(type).level
+        && this.counter >= this.getBot(type).price;
     }
 
     /**
@@ -154,7 +166,9 @@ export class ClickerModel extends Reactive{
     updateLevel(){
         for(let i=0;i<this.milestones.length;i++){
             if(i==this.level && this.counter >=this.milestones[i].clicks){
-                this.bus.dispatchEvent(new Event("MILESTONE",this.milestones[i]));
+                this.bus.dispatchEvent(new CustomEvent("MILESTONE",{
+                    detail: this.milestones[i]
+                }));
                 this.level++;
             }
         }

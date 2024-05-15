@@ -6,12 +6,14 @@ import { useClicker } from "../useClicker";
 import { humanNumber } from "@web/core/utils/numbers";
 import { ClickValue } from "../click_value/click_value";
 import { doClickerAction } from "../util";
+import { Dropdown } from "@web/core/dropdown/dropdown";
+import { DropdownItem } from "@web/core/dropdown/dropdown_item";
 
 
 export class ClickerSytrayItem extends Component {
     static template = "awesome_clicker.systrai_item";
     static components = {
-        ClickValue
+        ClickValue,Dropdown,DropdownItem
     };
     static props = {
         
@@ -25,7 +27,14 @@ export class ClickerSytrayItem extends Component {
         this.clickerRef = useRef('clicker-btn-ref')
         this.clicker = useClicker();
         this.action = useService('action');
-        useExternalListener(document.body,'click',this.increment.bind(this),{capture:true})
+        useExternalListener(document.body,'click',this.increment.bind(this),{capture:true});
+    }
+
+    get firstCommand(){
+        if(this.commands && this.commands.length > 0){
+            return this.commands[0];
+        }
+        return false;
     }
 
     get clickerValue(){

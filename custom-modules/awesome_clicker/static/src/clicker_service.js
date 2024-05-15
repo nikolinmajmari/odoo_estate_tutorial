@@ -9,10 +9,12 @@ const client = {
     start(env,{effect,notification,action}){
 
         const model = new ClickerModel();
-        model.bus.addEventListener("MILESTONE",function(milestone){
+        model.bus.addEventListener("MILESTONE",function(event){
+            console.log(event);
+            const milestone = event.detail;
             effect.add({
                 type: "rainbow_man", // can be omitted, default type is already "rainbow_man"
-                message: `1K Milestone reached! Now you can ${milestone.description } !`,
+                message: `1K Milestone reached! Now you can buy ${milestone.unlocked } !`,
             });
         });
 

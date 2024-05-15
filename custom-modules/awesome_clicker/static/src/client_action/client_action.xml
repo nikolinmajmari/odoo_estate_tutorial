@@ -28,19 +28,58 @@
                         </div>
                     </div>
                 </t>
-                 <div class="card">
-                    <h5 class="card-header">
-                        <t t-out="this.clicker.multipler"/>x Bot Multiply Factor 
-                        ( x <t t-out="this.clicker.multipler"/> for every bot clicks )
-                        <i class="fa fa-android"></i>
-                    </h5>
-                    <div class="card-body">
-                        <button t-on-click="()=>this.clicker.buyMultipler()" class="btn btn-primary" t-att-disabled="!this.clicker.canBuyMultipler()">
-                            Buy a bot multiply factor (50000 Clicks)
-                        </button>
-                    </div>
-                </div>
              </div>
+             <h4>Power Multiplers</h4>
+             <div class="d-flex flex-row flex-wrap gap-3 mb-3">
+                    <div class="card">
+                        <h5 class="card-header">
+                            <t t-out="this.clicker.multipler"/>x Bot Multiply Factor 
+                            ( x <t t-out="this.clicker.multipler"/> for every bot clicks )
+                            <i class="fa fa-android"></i>
+                        </h5>
+                        <div class="card-body">
+                            <button t-on-click="()=>this.clicker.buyMultipler()" class="btn btn-primary" t-att-disabled="!this.clicker.canBuyMultipler()">
+                                Buy a bot multiply factor (50000 Clicks)
+                            </button>
+                        </div>
+                    </div>
+             </div>
+
+             <!-- Trees  -->
+            <h4>Trees </h4>
+             <div class="d-flex flex-row flex-wrap gap-3 mb-3">
+                <t t-foreach="this.clicker.trees" t-as="key" t-key="id">
+                    <t t-set="tree" t-value="this.clicker.getTree(key)"/>
+                    <div class="card">
+                        <h5 class="card-header">
+                            <t t-out="tree.purchased"/> x <t t-out="key"/>
+                            (<t t-out="this.clicker.multipler"/> x <t t-out="tree.fruit"/> / 30 Seconds )
+                            <i class="fa fa-tree"></i>
+                            </h5>
+                        <div class="card-body">
+                            <button t-on-click="()=>this.clicker.buyTree(key)" 
+                                    class="btn btn-primary" 
+                                    t-att-disabled="!this.clicker.canBuyTrees(key)"
+                                    >
+                                Buy a <t t-out="key"/> (<t t-out="tree.price"/> Clicks)
+                            </button>
+                        </div>
+                    </div>
+                </t>
+             </div>
+            <h4>Fruits </h4>
+             <div class="d-flex flex-row flex-wrap gap-3 mb-3">
+                <t t-foreach="this.clicker.trees" t-as="key" t-key="id">
+                    <t t-set="tree" t-value="this.clicker.getTree(key)"/>
+                    <t t-set="fruits" t-value="this.clicker.getFruit(tree.fruit)"/>
+                    <div class="card">
+                        <h5 class="card-header">
+                            <t t-out="fruits"/> x <t t-out="tree.fruit"/>
+                        </h5>
+                    </div>
+                </t>
+             </div>
+             
 
        </div>
     </t>

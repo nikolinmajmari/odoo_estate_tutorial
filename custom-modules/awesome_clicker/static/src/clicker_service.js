@@ -2,13 +2,19 @@
 import { EventBus, reactive } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { ClickerModel } from "./clicker_model";
-import { doClickerAction } from "./util";
+import { doClickerAction, initObjectPresistence } from "./util";
+import { browser } from "@web/core/browser/browser";
+
+const CLICKER_MODEL_STORAGE_KEY= 'awesome_clicker.cicker';
 
 const client = {
     dependencies : ["effect","notification","action"],
     start(env,{effect,notification,action}){
-
         const model = new ClickerModel();
+        //// presistence loads old data when browser is reloaded and updates 
+        //// stored data every t seconds to prevent data loss
+        initObjectPresistence(model,CLICKER_MODEL_STORAGE_KEY,10000);
+
         model.bus.addEventListener("MILESTONE",function(event){
             console.log(event);
             const milestone = event.detail;
@@ -34,8 +40,7 @@ const client = {
                     }]
                 }
             )
-        })
-        
+        });
         return model;
 
         const state = reactive({

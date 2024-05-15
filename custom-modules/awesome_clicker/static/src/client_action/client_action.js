@@ -4,11 +4,12 @@ import { Component, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useClicker } from "../useClicker";
 import { ClickValue } from "../click_value/click_value";
+import {Notebook} from "@web/core/notebook/notebook";
 
 export class ClientAction extends Component {
     static template = "awesome_clicker.client";
     static components = {
-        ClickValue
+        ClickValue,Notebook
     };
     static props = {
     };

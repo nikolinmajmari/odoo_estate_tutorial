@@ -1,5 +1,6 @@
 /** @odoo-module **/
 
+import { browser } from "@web/core/browser/browser";
 import { rewards } from "./rewards";
 
 
@@ -15,4 +16,24 @@ export function doClickerAction(action){
         target: "new",
         name: "Clicker game"
     });
+}
+
+
+
+export function initObjectPresistence(model,key,timeout){
+    //// load previous data 
+    const storedValue = browser.localStorage.getItem(key);
+    if(storedValue != null){
+        const parsed = JSON.parse(storedValue);
+        Object.assign(model,parsed);
+    }
+    return setInterval(function(){
+        const serialized = JSON.stringify(model,function(key,value){
+            if(key!=='bus'){
+                return value;
+            }
+        });
+        browser.localStorage.setItem(key,serialized);
+    },timeout);
+    //// setup timers for data update 
 }

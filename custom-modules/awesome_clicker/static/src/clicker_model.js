@@ -44,13 +44,13 @@ export class ClickerModel extends Reactive{
             pearTree:{
                 purchased: 0,
                 fruit: "pear",
-                price: 5,
+                price: 1000000  ,
                 level: 4,
             },
             cherryTree:{
                 purchased: 0,  
                 fruit: "cherry",
-                price: 10,
+                price: 1000000,
                 level: 4
             },
             // peachTree:{
@@ -68,7 +68,6 @@ export class ClickerModel extends Reactive{
         this.level = 0;
         this.multipler = 1;
         this.bus = new EventBus();
-
         //// side effects 
         setInterval(()=>{
             this.incrementBotPoints();
@@ -220,7 +219,7 @@ export class ClickerModel extends Reactive{
 
     produceFruits(){
         for(const key in this.trees){
-            this.fruits[this.getTree(key).fruit] += this.getTree(key).purchased * this.multipler;
+            this.fruits[this.getTree(key).fruit] += this.getTree(key).purchased;
         }
     }
 

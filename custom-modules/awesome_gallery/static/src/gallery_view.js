@@ -3,15 +3,14 @@
 // TODO: Begin here!
 
 import { registry } from "@web/core/registry";
-import { GaleryController } from "./galery_controller/galery_controller";
+import { GalleryController } from "./gallery_controller/gallery_controller";
 
-
-export const galeryView = {
+export const galleryView = {
     type: "gallery",
-    display_name : "Gallery View",
-    icon : "oi oi-view-list",
+    display_name: "Gallery",
+    icon: "fa fa-picture-o",
     multiRecord: true,
-    Controller: GaleryController   
+    Controller: GalleryController,
 }
 
-registry.category("views").add("gallery",galeryView)
+registry.category("views").add("gallery",galleryView)

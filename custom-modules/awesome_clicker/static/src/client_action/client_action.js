@@ -11,8 +11,7 @@ export class ClientAction extends Component {
     static components = {
         ClickValue,Notebook
     };
-    static props = {
-    };
+    static props = ['*'];
 
     /// geters 
     get bots(){

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="awesome_galery.controller">
+        <label>Hello world</label>
+    </t>
+</templates>

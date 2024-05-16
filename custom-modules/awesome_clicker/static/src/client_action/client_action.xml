@@ -9,11 +9,11 @@
                 <br/>
             </div>
             <Notebook>
-                <t t-set-slot="page_1" title="'Clicks'" isVisible="true">
+                <t t-set-slot="clicks" title="'Clicks'" isVisible="this.clicker.level >= 1">
                     <div class="p-2">
                         <h4>Bots</h4>
                         <div class="d-flex flex-row flex-wrap gap-3 mb-3">
-                            <t t-foreach="this.bots" t-as="key" t-key="id">
+                            <t t-foreach="this.clicker.bots" t-as="key" t-key="key">
                                 <t t-set="bot" t-value="this.clicker.getBot(key)"/>
                                 <div class="card">
                                     <h5 class="card-header" t-attf-data-tooltip="{{bot.increment*10}} clicks per 10s">
@@ -49,11 +49,11 @@
                         </div>
                     </div>
                 </t>
-                <t t-set-slot="page_2" title="'Trees and Fruits'" isVisible="true">
+                <t t-set-slot="trees_and_fruits" title="'Trees and Fruits'" isVisible="this.clicker.level > 1">
                     <div class="p-2">
                         <h4>Trees </h4>
                         <div class="d-flex flex-row flex-wrap gap-3 mb-3">
-                            <t t-foreach="this.clicker.trees" t-as="key" t-key="id">
+                            <t t-foreach="this.clicker.trees" t-as="key" t-key="key">
                                 <t t-set="tree" t-value="this.clicker.getTree(key)"/>
                                 <div class="card">
                                     <h5 class="card-header">
@@ -74,7 +74,7 @@
                         </div>
                         <h4>Fruits </h4>
                         <div class="d-flex flex-row flex-wrap gap-3 mb-3">
-                            <t t-foreach="this.clicker.trees" t-as="key" t-key="id">
+                            <t t-foreach="this.clicker.trees" t-as="key" t-key="key">
                                 <t t-set="tree" t-value="this.clicker.getTree(key)"/>
                                 <t t-set="fruits" t-value="this.clicker.getFruit(tree.fruit)"/>
                                 <div class="card">

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
     <t t-name="awesome_gallery.controller">
-        <label>Hello world</label>
+        <Layout display="this.props.display">
+            <label>Hello world</label>
+        </Layout>
     </t>
 </templates>

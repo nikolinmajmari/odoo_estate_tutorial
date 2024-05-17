@@ -1,0 +1,9 @@
+.o_action_manager{
+    display: flex;
+    flex-direction: column;
+}
+
+.o_content{
+    flex: 1;
+    overflow-y: auto;
+}

@@ -2,7 +2,8 @@
 <templates xml:space="preserve">
     <t t-name="awesome_gallery.controller">
         <Layout display="this.props.display">
-            <t t-component="this.props.Render" t-props="{'model':this.model}"/>
+            <t t-component="this.props.Render" 
+                t-props="{'model':this.model,'tooltipTemplate':this.props.archInfo.tooltipTemplate}"/>
         </Layout>
     </t>
 </templates>

@@ -11,7 +11,7 @@ import { ActionMenus } from "@web/search/action_menus/action_menus";
 export class GalleryController extends Component {
     static template = "awesome_gallery.controller";
     static components = {
-        Layout,Pager    ,ActionMenus
+        Layout,Pager ,ActionMenus
     };
     static props = {
         ...standardViewProps,

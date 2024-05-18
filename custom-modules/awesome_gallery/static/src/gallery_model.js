@@ -13,16 +13,16 @@ export class GalleryModel extends Reactive{
 
         /// config 
         this.resModel = resModel;
-        const {imageField,tooltipField,limit} = archInfo;
+        const {imageField,tooltipField,limit,additionalFields} = archInfo;
         this.imageField = imageField;
         this.tooltipField = tooltipField;
-        this.limit = limit;
+        this.additionalFields = additionalFields;
         this.loadKeepLast = new KeepLast();
 
         /// state 
         this.records = [];
         this.offset = 0;
-        this.limit = 10;
+        this.limit = limit??20;
         this.total = 0;
     }
 
@@ -35,6 +35,19 @@ export class GalleryModel extends Reactive{
             write_date
         });
         return uri;
+    }
+
+    get specification(){
+        const spec = {
+            [this.imageField]:{},
+            write_date:{}
+        };
+        for(const field of this.additionalFields){
+            if(field){
+                spec[field] = {};   
+            }
+        }
+        return spec;
     }
 
     /**
@@ -53,11 +66,7 @@ export class GalleryModel extends Reactive{
                 domain,
                 {
                 ...pageArgs,
-                specification : {
-                    [this.imageField]:{},
-                    [this.tooltipField]:{},
-                    write_date:{}
-                },
+                specification : this.specification,
                 context:{
                     bin_size: true
                 }
@@ -82,16 +91,13 @@ export class GalleryModel extends Reactive{
                 [this.imageField]:image,
             },
             {
-                specification:{
-                    [this.imageField]:{},
-                    write_date:{}
-                }
+                specification : this.specification,
             }
         );
         // const index = this.records.findIndex(p=>p.id==partner.id);
         // if(index!==-1){
         //     this.records[index].write_date = update.write_date;
         // }
-        partner.write_date = update.write_date;
+        Object.assign(partner,update);
     }
 }

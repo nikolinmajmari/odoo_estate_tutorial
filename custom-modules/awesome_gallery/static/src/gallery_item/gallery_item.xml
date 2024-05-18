@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
     <t t-name="awesome_gallery.gallery-item">
-        <div class="card" t-on-click="this.props.onClick">
+        <div class="card" t-on-click="this.props.onClick" t-ref="tooltip">
            <div class="position-relative">
                 <img class="img-thumbnail  w-100 h-full"
-                style="object-fit:con" 
-                t-att-src="this.props.image"
-                t-att-data-tooltip="this.props.tooltip" 
-                />
-                <div class="btn-container position-absolute bottom-0 end-0 p-2">
-                    <FileUploader  t-on-click="(e)=>e.stopPropagation()" onUploaded="this.props.onUploaded">
+                    style="object-fit:con" 
+                    loading="lazy"
+                    t-att-src="url(this.props.record)"
+                    />
+                <div t-on-click.stop="" class="btn-container position-absolute bottom-0 end-0 p-2">
+                    <FileUploader onUploaded="this.props.onUploaded">
                         <t t-set-slot="toggler">
                             <button class="btn btn-secondary"><i class="fa fa-edit"></i></button>
                         </t>

@@ -26,6 +26,7 @@ export const galleryView = {
             archInfo,
             Model: view.Model,
             Render: view.Render,
+            tooltipTemplate: archInfo.tooltipTemplate
         }
     }
 }

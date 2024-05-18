@@ -55,7 +55,7 @@ export class ClickerModel extends Reactive{
             },
             peachTree:{
                 purchased: 0,
-                fruit: "pearch",
+                fruit: "peach",
                 price: 1000000,
                 level: 4
             },
@@ -69,6 +69,8 @@ export class ClickerModel extends Reactive{
         this.fruits = {
             pear: 0,
             cherry: 0,
+            peach: 0,
+            apple: 0,
             // pearch: 0
         };
         this.level = 0;

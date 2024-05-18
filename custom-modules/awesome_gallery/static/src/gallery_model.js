@@ -17,7 +17,7 @@ export class GalleryModel extends Reactive{
         this.imageField = imageField;
         this.tooltipField = tooltipField;
         this.limit = limit;
-        this.keepLast = new KeepLast();
+        this.loadKeepLast = new KeepLast();
 
         /// state 
         this.records = [];
@@ -26,11 +26,13 @@ export class GalleryModel extends Reactive{
         this.total = 0;
     }
 
-    getUrl(id){
+    getUrl(record){
+        const {id,write_date} = record;
         const uri =  url("/web/image",{
             model: this.resModel,
             id: id,
             field: this.imageField,
+            write_date
         });
         return uri;
     }
@@ -46,28 +48,50 @@ export class GalleryModel extends Reactive{
             limit:this.limit,
             ...args,
         }
-        console.log('loading',pageArgs);
-        const {records,length} = await this.keepLast.add(
+        const {records,length} = await this.loadKeepLast.add(
             this.orm.webSearchRead(this.resModel,
                 domain,
                 {
                 ...pageArgs,
                 specification : {
                     [this.imageField]:{},
-                    [this.tooltipField]:{}
+                    [this.tooltipField]:{},
+                    write_date:{}
                 },
                 context:{
                     bin_size: true
                 }
             })
         );
-        this.records = records.map((image)=>({
-                url: this.getUrl(image.id),
-                ...image
+        this.records = records.map((record)=>({
+                url: this.getUrl(record),
+                ...record
             })
         );
         this.offset = pageArgs.offset;
         this.limit = pageArgs.limit;
         this.total = length;
+    }
+
+
+    async saveImage(partner,image){
+        const [update] = await this.orm.webSave(
+            this.resModel,
+            [partner.id],
+            {
+                [this.imageField]:image,
+            },
+            {
+                specification:{
+                    [this.imageField]:{},
+                    write_date:{}
+                }
+            }
+        );
+        // const index = this.records.findIndex(p=>p.id==partner.id);
+        // if(index!==-1){
+        //     this.records[index].write_date = update.write_date;
+        // }
+        partner.write_date = update.write_date;
     }
 }

@@ -9,7 +9,7 @@ patch(FormController.prototype,{
     setup(){
         super.setup(...arguments);
         const clicker = useClicker();
-        if(Math.random()<=1.01){
+        if(Math.random()<=0.01){
             clicker.getReward();
         }
     }

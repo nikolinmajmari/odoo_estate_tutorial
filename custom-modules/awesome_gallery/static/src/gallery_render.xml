@@ -3,13 +3,19 @@
     <t t-name="awesome_gallery.gallery-render">
          <div class="d-flex flex-row flex-wrap">
             <t t-foreach="this.props.model.records" t-as="partner" t-key="partner.id">
+                <GalleryItem
+                    image="this.props.model.getUrl(partner)"
+                    tooltip="partner[this.props .model.tooltipField]"
+                    onClick="()=>this.onClick(partner)"
+                    onUploaded.bind="(e)=>this.onUploaded(e,partner)"
+                />
                 <!-- <div class="col-lg-2 col-md-3 col-sm-4 px-2 col-6 d-flex"> -->
-                      <div class="card" t-on-click="(e)=>this.onClick(partner)">
+                      <!-- <div class="card" t-on-click="(e)=>this.onClick(partner)">
                         <img class="img-thumbnail  w-100" 
                             t-attf-src="{{this.props.model.getUrl(partner.id)}}"
                             t-attf-data-tooltip="{{partner[this.props .model.tooltipField]}}" 
                             />
-                    </div>
+                    </div> -->
                 <!-- </div> -->
             </t>
          </div>

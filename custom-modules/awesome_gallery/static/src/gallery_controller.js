@@ -50,4 +50,9 @@ export class GalleryController extends Component {
             this.model.load(this.props.domain);
         });
     }
+
+
+    upload(e,record){
+
+    }
 }

@@ -5,7 +5,10 @@
             <t t-foreach="this.props.model.records" t-as="partner" t-key="partner.id">
                 <!-- <div class="col-lg-2 col-md-3 col-sm-4 px-2 col-6 d-flex"> -->
                       <div class="card" t-on-click="(e)=>this.onClick(partner)">
-                        <img class="img-thumbnail  w-100" t-attf-src="{{this.props.model.getUrl(partner.id)}}"/>
+                        <img class="img-thumbnail  w-100" 
+                            t-attf-src="{{this.props.model.getUrl(partner.id)}}"
+                            t-attf-data-tooltip="{{partner[this.props .model.tooltipField]}}" 
+                            />
                     </div>
                 <!-- </div> -->
             </t>

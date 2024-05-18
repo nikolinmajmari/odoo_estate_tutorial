@@ -2,10 +2,12 @@
 
 export class GalleryArchParser{
     parse(xmlDoc){
-        console.log(xmlDoc);
+        console.log("parsing",xmlDoc);
         const imageField = xmlDoc.getAttribute('image_field');
+        const tooltipField = xmlDoc.getAttribute('tooltip_field');
         return {
-            imageField   
+            imageField   ,
+            tooltipField,
         }
     }
 }

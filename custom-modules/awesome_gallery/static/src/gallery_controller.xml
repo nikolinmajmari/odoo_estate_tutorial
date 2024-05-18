@@ -2,9 +2,7 @@
 <templates xml:space="preserve">
     <t t-name="awesome_gallery.controller">
         <Layout display="this.props.display">
-            <div class="overflow-auto">
-                <t t-component="this.props.Render" t-props="{'model':this.model}"/>
-            </div>
+            <t t-component="this.props.Render" t-props="{'model':this.model}"/>
         </Layout>
     </t>
 </templates>

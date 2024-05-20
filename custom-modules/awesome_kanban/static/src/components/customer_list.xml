@@ -2,7 +2,30 @@
 <templates xml:space="preserve">
     <t t-name="awesome_kanban.customer_list">
         <div class="o_kanban_group flex-shrink-0 flex-grow-1 flex-md-grow-0 o_group_draggable">
-            Hello from customer List
+                
+            <div class="px-2">
+                <span>Customers with active orders</span>
+                <CheckBox onChange.bind="toggleActiveCustomersList" value="this.model.displayActiveOnly">
+                    Active Customers
+                </CheckBox>
+                <div class="form-group mb-2">
+                    <input t-model="model.query" t-on-keydown="onKeyDown" class="form-control" placeholder="search"/>
+                </div>
+                <Pager offset="this.model.pager.offset"
+                    limit="this.model.pager.limit"
+                    total="this.model.total"  
+                    onUpdate.bind="onPagerUpdate"                  
+                />
+            </div>
+            <ul class="list-group">
+                <t t-foreach="this.displayedCustomers" t-as="customer" t-key="customer.id">
+                <li class="p-2 list-group-item" 
+                    t-att-class="{'o_partner_selected':this.model.selected==customer.id}" 
+                    t-on-click="()=>this.select(customer)">
+                    <t t-esc="customer.name"/>
+                </li>
+            </t>
+            </ul>
         </div>
     </t>
 </templates>

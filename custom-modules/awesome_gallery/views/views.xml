@@ -9,7 +9,7 @@
                 <field name="email"/> 
                 <field name="name"/> 
                 <tooltip-template>
-                    <p class="m-0">name: <field name="name"/></p>
+                    <p class="m-0">name: <field name="name"/></p> 
                     <p class="m-0">e-mail: <field name="email"/></p>
                 </tooltip-template>
               </gallery>

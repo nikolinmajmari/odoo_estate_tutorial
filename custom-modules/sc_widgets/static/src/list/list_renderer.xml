@@ -4,7 +4,7 @@
         t-inherit="web.ListRenderer" 
         t-inherit-mode="extension">
         <xpath expr="//tr" position="after">
-            <xpath expr="//tfoot" position="move">
+            <xpath expr="//tfoot//tr" position="move">
             </xpath>
         </xpath>
     </t>

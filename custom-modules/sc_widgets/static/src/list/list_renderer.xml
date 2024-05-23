@@ -3,8 +3,8 @@
     <t  t-name="sc_widgets.ListRenderer"
         t-inherit="web.ListRenderer" 
         t-inherit-mode="extension">
-        <xpath expr="//tr" position="after">
-            <xpath expr="//tfoot//tr" position="move">
+        <xpath expr="//table//thead//tr[1]" position="after">
+            <xpath expr="//table//tfoot//tr" position="move">
             </xpath>
         </xpath>
     </t>

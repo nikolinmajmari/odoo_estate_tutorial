@@ -3,7 +3,6 @@
 
 import {ListRenderer} from "@web/views/list/list_renderer";
 import { useService } from "@web/core/utils/hooks";
-import { session } from "@web/session";
 import { onWillStart } from "@odoo/owl";
 
 export class SCListRenderer extends ListRenderer{
@@ -19,7 +18,22 @@ export class SCListRenderer extends ListRenderer{
         super.setup();
         this.userService = useService('user');
         onWillStart(async ()=>{
-            this.aggregatesAuthorized = await this.userService.hasGroup('base.group_system');
+            window.user = this.userService;
+            this.aggregatesAuthorized = await this.hasGroups(this.props.archInfo.allowAggregateGroups);
+            console.log("evaluated as ",this.aggregatesAuthorized);
         });
+    }
+
+
+    async hasGroups(groups){
+        return Promise.all(
+            Array.from(groups).map(
+                (group)=>this.userService.hasGroup(group)
+            )
+        ).then(
+            results=>results.reduce(
+                (acc,next)=>acc||next,false
+            )
+        );
     }
 }

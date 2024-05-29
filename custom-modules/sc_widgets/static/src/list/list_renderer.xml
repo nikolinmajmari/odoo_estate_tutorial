@@ -4,8 +4,22 @@
         t-inherit="web.ListRenderer" 
         t-inherit-mode="extension">
         <xpath expr="//table//thead//tr[1]" position="after">
-            <xpath expr="//table//tfoot//tr" position="move">
-            </xpath>
+             <xpath expr="//table//tfoot//tr[1]" position="move">
+             </xpath>
+        </xpath>
+        <xpath expr="//table//thead//tr[2]" position="attributes">
+            <attribute name="t-if">this.aggregatesAuthorized</attribute>
+        </xpath>
+    </t>
+    <t  t-name="sc_widgets.ListRenderer.GroupRow"
+        t-inherit="web.ListRenderer.GroupRow"
+        t-inherit-mode="extension">
+        <xpath expr="//tr/td" position="attributes">
+            <attribute name="t-if">this.aggregatesAuthorized</attribute>
+        </xpath>
+        <xpath expr="//tr/th" position="after">
+            <td t-if="!this.aggregatesAuthorized">
+            </td>
         </xpath>
     </t>
 </templates>

@@ -14,9 +14,11 @@
     <t  t-name="sc_widgets.ListRenderer.GroupRow"
         t-inherit="web.ListRenderer.GroupRow"
         t-inherit-mode="extension">
+        <!-- Hide td in case aggregatesAuthorized is false -->
         <xpath expr="//tr/td" position="attributes">
             <attribute name="t-if">this.aggregatesAuthorized</attribute>
         </xpath>
+        <!-- Since one td was hidden, show an empty td to keep table structure ok -->
         <xpath expr="//tr/th" position="after">
             <td t-if="!this.aggregatesAuthorized">
             </td>

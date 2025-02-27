@@ -12,6 +12,9 @@ services:
       - type: bind
         source: ./custom-modules
         target: /mnt/extra-addons
+      - type: bind
+        source: ${ODOO_FILESTORE_PATH}
+        target: /mnt/filestore
   db:
     image: postgres:13
     ports:

@@ -3,7 +3,7 @@ services:
   web:
     image: odoo:17.0
     container_name: odoo_estate
-    command: ${ODOO_CMD_ARGS} --addons-path=/mnt/extra-addons/
+    command: $ODOO_CMD_ARGS --addons-path=/mnt/extra-addons/
     depends_on:
       - db
     ports:
@@ -11,6 +11,8 @@ services:
     volumes:
       - ./config:/etc/odoo
       - ./custom-modules:/mnt/extra-addons
+    environment:
+      - ODOO_CMD_ARGS=${ODOO_CMD_ARGS}
   db:
     image: postgres:13
     container_name: odoo_estate_postgresql

@@ -35,7 +35,7 @@ pipeline {
         failure {
             sh 'sudo docker-compose down'
         }
-        allways {
+        always {
             sh 'sudo docker-compose -f docker-compose.test.yaml down'
         }
     }

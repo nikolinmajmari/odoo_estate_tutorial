@@ -1,6 +1,6 @@
 version: '3'
 services: 
-  web_test:
+  web:
     image: odoo:17.0
     container_name: odoo_estate_test
     command: -d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web --addons-path=/mnt/extra-addons/

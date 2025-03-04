@@ -10,21 +10,15 @@ pipeline {
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
             }
             steps {
-                sh 'echo ${ODOO_CMD_ARGS}'
-                sh 'sudo docker-compose up'
+                sh 'sudo docker-compose -f docker-compose.test.yaml up'
             }
         }
 
-        stage('Run Unit Tests') {
+        stage('Drop containers for tests ') {
             steps {
                 script {
-                   sh 'echo test'
+                   sh 'sudo docker-compose -f docker-compose.test.yaml down'
                 }
-            }
-        }
-        stage('Stop & Remove Test Containers') {
-            steps {
-                sh 'sudo docker-compose down'
             }
         }
 
@@ -40,6 +34,9 @@ pipeline {
     post {
         failure {
             sh 'sudo docker-compose down'
+        }
+        allways {
+            sh 'sudo docker-compose -f docker-compose.test.yaml down'
         }
     }
 }

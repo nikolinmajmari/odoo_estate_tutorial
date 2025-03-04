@@ -3,7 +3,7 @@ services:
   web:
     image: odoo:17.0
     container_name: odoo_estate
-    command: --dev=all --addons-path=/mnt/extra-addons/
+    command: -d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web --addons-path=/mnt/extra-addons/
     depends_on:
       - db
     ports:

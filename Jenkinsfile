@@ -32,7 +32,7 @@ pipeline {
         }
     }
     post {
-        always {
+        failure {
             sh 'sudo docker-compose down'
         }
     }

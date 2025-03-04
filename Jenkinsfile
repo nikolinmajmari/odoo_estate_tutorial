@@ -1,11 +1,9 @@
 pipeline {
     agent any
-
+    environment{
+        ODOO_CMD_ARGS='--dev=all'
+    }
     stages {
-
-        environment{
-            ODOO_CMD_ARGS='--dev=all'
-        }
         
         stage('Build & Start Containers for Testing') {
             environment{

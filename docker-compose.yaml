@@ -10,9 +10,7 @@ services:
       - 8069:8069
     volumes:
       - ./config:/etc/odoo
-      - type: bind
-        source: ./custom-modules
-        target: /mnt/extra-addons
+      - ./custom-modules:/mnt/extra-addons
   db:
     image: postgres:13
     container_name: odoo_estate_postgresql

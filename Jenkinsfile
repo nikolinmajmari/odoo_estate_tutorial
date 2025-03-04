@@ -27,7 +27,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'sudo docker-compose up'
+                sh 'sudo docker-compose up -d'
             }
         }
     }

@@ -10,7 +10,7 @@ pipeline {
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
             }
             steps {
-                sh 'sudo docker-compose -f docker-compose.test.yaml up --abort-on-container-exit --exit-code-from service-test'
+                sh 'sudo docker-compose -f docker-compose.test.yaml up --abort-on-container-exit --exit-code-from web'
             }
         }
 

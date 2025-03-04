@@ -22,7 +22,7 @@ pipeline {
         stage('Drop containers for tests ') {
             steps {
                 script {
-                   sh 'sudo docker-compose -f docker-compose.test.yaml down'
+                   sh 'sudo docker-compose down'
                 }
             }
         }
@@ -39,9 +39,6 @@ pipeline {
     post {
         failure {
             sh 'sudo docker-compose down'
-        }
-        always {
-            sh 'sudo docker-compose -f docker-compose.test.yaml down'
         }
     }
 }

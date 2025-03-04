@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Stop & Remove Test Containers') {
             steps {
-                sh ' docker-compose  down'
+                sh ' docker-compose down'
             }
         }
 
@@ -27,13 +27,13 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh ' docker-compose -f docker-compose.prod.yml up -d --build'
+                sh ' docker-compose up -d --build'
             }
         }
     }
     post {
         always {
-            sh ' docker-compose -f $COMPOSE_FILE down || true'
+            sh ' docker-compose down'
         }
     }
 }

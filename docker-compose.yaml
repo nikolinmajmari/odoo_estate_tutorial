@@ -2,6 +2,7 @@ version: '2'
 services: 
   web:
     image: odoo:17.0
+    container_name: odoo_estate
     command: --dev=all
     depends_on:
       - db
@@ -14,6 +15,7 @@ services:
         target: /mnt/extra-addons
   db:
     image: postgres:13
+    container_name: odoo_estate_postgresql
     ports:
       - 5432:5432
     environment:

@@ -5,7 +5,7 @@ pipeline {
         
         stage('Build & Start Containers for Testing') {
             steps {
-                sh 'docker-compose up -d --build'
+                sh 'dockepipeliner-compose up -d --build'
             }
         }
 
@@ -16,7 +16,6 @@ pipeline {
                 }
             }
         }
-
         stage('Stop & Remove Test Containers') {
             steps {
                 sh 'docker-compose  down'

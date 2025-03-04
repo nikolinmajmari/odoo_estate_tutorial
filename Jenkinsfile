@@ -10,6 +10,7 @@ pipeline {
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
             }
             steps {
+                sh 'echo ${ODOO_CMD_ARGS}'
                 sh 'sudo docker-compose up'
             }
         }

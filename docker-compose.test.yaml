@@ -1,8 +1,8 @@
 version: '3'
 services: 
-  web:
+  web_test:
     image: odoo:17.0
-    container_name: odoo_estate
+    container_name: odoo_estate_test
     command: -d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web --addons-path=/mnt/extra-addons/
     depends_on:
       - db
@@ -13,7 +13,7 @@ services:
       - ./custom-modules:/mnt/extra-addons
   db:
     image: postgres:13
-    container_name: odoo_estate_postgresql
+    container_name: odoo_estate_postgresql_test
     ports:
       - 5432:5432
     volumes:

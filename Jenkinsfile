@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image:  'odoo:17.0'
+            image  'odoo:17.0'
         }
     }
 

@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
             image  'odoo:17.0'
+            reuseNode true 
         }
     }
 

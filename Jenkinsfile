@@ -15,7 +15,7 @@ pipeline {
             }
         }
         stage('Deploy to Production') {
-            when {
+            when {f docker-compose.yaml up 
                 branch 'main'
             }
             steps {
@@ -34,7 +34,7 @@ pipeline {
 
     post {
         always {
-            sh 'docker-compose -f $COMPOSE_FILE down || true'
+            sh 'docker ps'
         }
     }
 }

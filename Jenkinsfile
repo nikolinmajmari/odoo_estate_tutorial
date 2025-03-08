@@ -10,7 +10,7 @@ pipeline {
                 POSTGRES_EXPOSE_PORT=5432
             }
             steps {
-                sh 'docker-compose up --abort-on-container-exit	'
+                sh 'docker compose up --abort-on-container-exit	'
             }
         }
 
@@ -19,7 +19,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'docker-compose -d --build'
+                sh 'docker compose -d --build'
             }
         }
 
@@ -28,14 +28,14 @@ pipeline {
                 branch 'stagging'
             }
             steps {
-                sh 'docker-compose up -d --build'
+                sh 'docker compose up -d --build'
             }
         }
     }
 
     post {
         always {
-            sh 'docker-compose -f $COMPOSE_FILE down || true'
+            sh 'docker ps'
         }
     }
 }

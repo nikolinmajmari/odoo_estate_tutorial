@@ -2,7 +2,6 @@ pipeline {
     agent any
     stages {
         stage('Build & Start Containers for Testing and run') {
-            agent any
             environment{
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
                 ODOO_EXPOSE_PORT=8069

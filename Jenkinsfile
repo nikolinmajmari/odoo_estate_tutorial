@@ -15,6 +15,12 @@ pipeline {
             }
         }
         stage('Deploy to Production') {
+            environment{
+                ODOO_CMD_ARGS='--dev=all'
+                ODOO_EXPOSE_PORT=80
+                SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
+                POSTGRES_EXPOSE_PORT=5432
+            }
             when {
                 branch 'main'
             }

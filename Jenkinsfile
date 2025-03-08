@@ -10,7 +10,7 @@ pipeline {
                 POSTGRES_EXPOSE_PORT=5432
             }
             steps {
-                sh 'docker-compose up -d --build'
+                sh 'docker-compose up'
             }
         }
 

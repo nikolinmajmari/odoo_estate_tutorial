@@ -1,13 +1,16 @@
 pipeline {
     agent any
+     environment{
+        ODOO_CMD_ARGS='--dev=all'
+        ODOO_EXPOSE_PORT=8069
+        SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
+        POSTGRES_EXPOSE_PORT=5432
+    }
     stages {
         stage('Build & Start Containers for Testing and run tests') {
             agent any
             environment{
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
-                ODOO_EXPOSE_PORT=8069
-                SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
-                POSTGRES_EXPOSE_PORT=5432
             }
             steps {
                 sh 'docker-compose up --abort-on-container-exit	'
@@ -24,8 +27,6 @@ pipeline {
             environment{
                 ODOO_CMD_ARGS='--dev=all'
                 ODOO_EXPOSE_PORT=80
-                SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
-                POSTGRES_EXPOSE_PORT=5432
             }
             when {
                 branch 'main'

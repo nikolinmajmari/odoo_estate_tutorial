@@ -1,31 +1,20 @@
 version: '2'
 services: 
-
-
-
-
-
-
-
   web:
-    image: odoo:17.0
-    command: --dev=all
+    image: odoo:16.0
+    command: ${ODOO_CMD_ARGS} --addons-path=/mnt/extra-addons/base
     depends_on:
       - db
     ports:
-      - 8069:8069
+      - ${ODOO_EXPOSE_PORT}:8069
     volumes:
-      - ./config:/etc/odoo
       - type: bind
-        source: ./custom-modules
-        target: /mnt/extra-addons
-      - type: bind
-        source: ${ODOO_FILESTORE_PATH}
-        target: /mnt/filestore
+        source: ${SOFTCELL_BASE_ADDONS_PATH}
+        target: /mnt/extra-addons/base
   db:
     image: postgres:13
     ports:
-      - 5432:5432
+      - ${POSTGRES_EXPOSE_PORT}:5432
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=odoo

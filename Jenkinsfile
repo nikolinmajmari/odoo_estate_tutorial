@@ -1,24 +1,15 @@
 pipeline {
-    agent {
-        docker {
-            image  'odoo:17.0'
-            reuseNode true 
-        }
-    }
-
+    agent any
     stages {
-        
-        stage('Build & Start Containers for Testing') {
+        stage('Build & Start Containers for Testing and run') {
+            agent any
+            environment{
+                ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
+                ODOO_EXPOSE_PORT=8069
+                SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
+            }
             steps {
                 sh 'docker-compose up -d --build'
-            }
-        }
-
-        stage('Run Unit Tests') {
-            steps {
-                script {
-                   sh 'echo test'
-                }
             }
         }
 
@@ -33,7 +24,16 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'docker-compose -f docker-compose.prod.yml up -d --build'
+                sh 'docker-compose -f docker-compose.yaml up -d --build'
+            }
+        }
+
+        stage('Deploy to Stagging') {
+            when {
+                branch 'stagging'
+            }
+            steps {
+                sh 'docker-compose -f docker-compose.yaml up -d --build'
             }
         }
     }

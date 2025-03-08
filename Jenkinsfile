@@ -37,7 +37,7 @@ pipeline {
                 POSTGRES_EXPOSE_PORT=5433
             }
             when {
-                branch 'stagging'
+                tag pattern: "stagging-\\d+", 
             }
             steps {
                 sh 'docker compose up -d --build'

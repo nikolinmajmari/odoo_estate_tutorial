@@ -19,7 +19,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'docker-compose -f docker-compose.yaml up -d --build'
+                sh 'docker-compose up -d --build'
             }
         }
         stage('Deploy to Stagging') {
@@ -27,7 +27,7 @@ pipeline {
                 branch 'stagging'
             }
             steps {
-                sh 'docker-compose -f docker-compose.yaml up -d --build'
+                sh 'docker-compose up -d --build'
             }
         }
     }

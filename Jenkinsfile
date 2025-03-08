@@ -6,7 +6,7 @@ pipeline {
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
                 ODOO_EXPOSE_PORT=8069
                 SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
-                POSTGRES_EXPOSE_PORT=5432
+                POSTGRES_EXPOSE_PORT=5433
             }
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {

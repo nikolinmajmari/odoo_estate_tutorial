@@ -14,18 +14,12 @@ pipeline {
             }
         }
 
-        stage('Stop & Remove Test Containers') {
-            steps {
-                sh 'docker-compose  down'
-            }
-        }
-
         stage('Deploy to Production') {
             when {
                 branch 'main'
             }
             steps {
-                sh 'docker-compose -f docker-compose.yaml up -d --build'
+                sh 'docker-compose -d --build'
             }
         }
 
@@ -34,7 +28,7 @@ pipeline {
                 branch 'stagging'
             }
             steps {
-                sh 'docker-compose -f docker-compose.yaml up -d --build'
+                sh 'docker-compose up -d --build'
             }
         }
     }

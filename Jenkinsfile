@@ -25,6 +25,7 @@ pipeline {
                 branch 'main'
             }
             steps {
+                sh 'echo "$USER"'
                 sh 'docker compose up -d --build'
             }
         }

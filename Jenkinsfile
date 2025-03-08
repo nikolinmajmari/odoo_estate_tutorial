@@ -6,7 +6,7 @@ pipeline {
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
                 ODOO_EXPOSE_PORT=8069
                 SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
-                POSTGRES_EXPOSE_PORT=5432
+                POSTGRES_EXPOSE_PORT=5434
             }
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Deploy to Production') {
             environment{
-                ODOO_CMD_ARGS='--dev=all'
+                ODOO_CMD_ARGS='--workers=2 --max-cron-threads=1'
                 ODOO_EXPOSE_PORT=80
                 SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
                 POSTGRES_EXPOSE_PORT=5432
@@ -30,6 +30,12 @@ pipeline {
             }
         }
         stage('Deploy to Stagging') {
+            environment{
+                ODOO_CMD_ARGS='--dev=all'
+                ODOO_EXPOSE_PORT=8080
+                SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
+                POSTGRES_EXPOSE_PORT=5433
+            }
             when {
                 branch 'stagging'
             }

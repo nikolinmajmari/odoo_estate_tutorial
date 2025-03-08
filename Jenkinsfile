@@ -13,13 +13,6 @@ pipeline {
                 sh 'docker-compose up --abort-on-container-exit	'
             }
         }
-
-        stage('Stop & Remove Test Containers') {
-            steps {
-                sh 'docker-compose  down'
-            }
-        }
-
         stage('Deploy to Production') {
             when {
                 branch 'main'
@@ -28,7 +21,6 @@ pipeline {
                 sh 'docker-compose -f docker-compose.yaml up -d --build'
             }
         }
-
         stage('Deploy to Stagging') {
             when {
                 branch 'stagging'

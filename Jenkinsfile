@@ -10,7 +10,7 @@ pipeline {
             }
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    sh 'sudo docker compose up --abort-on-container-exit'
+                    sh 'docker compose up --abort-on-container-exit'
                 }
             }
         }
@@ -26,7 +26,7 @@ pipeline {
             }
             steps {
                 sh 'echo "$USER"'
-                sh 'sudo docker compose up -d --build'
+                sh 'docker compose up -d --build'
             }
         }
         stage('Deploy to Stagging') {
@@ -34,14 +34,14 @@ pipeline {
                 branch 'stagging'
             }
             steps {
-                sh 'sudo docker compose up -d --build'
+                sh 'docker compose up -d --build'
             }
         }
     }
 
     post {
         always {
-            sh 'sudo docker ps'
+            sh 'docker ps'
         }
     }
 }

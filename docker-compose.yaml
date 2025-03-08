@@ -1,4 +1,3 @@
-version: '3'
 services: 
   web:
     image: odoo:17.0
@@ -8,9 +7,7 @@ services:
     ports:
       - ${ODOO_EXPOSE_PORT}:8069
     volumes:
-      - type: bind
-        source: ${SOFTCELL_BASE_ADDONS_PATH}
-        target: /mnt/extra-addons/base
+      - ${SOFTCELL_BASE_ADDONS_PATH}:/mnt/extra-addons/base
   db:
     image: postgres:13
     ports:

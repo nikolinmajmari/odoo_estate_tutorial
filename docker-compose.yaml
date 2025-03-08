@@ -23,5 +23,3 @@ services:
       - POSTGRES_USER=odoo
 volumes:
   postgress_data:
-
-

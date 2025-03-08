@@ -1,7 +1,7 @@
 version: '2'
 services: 
   web:
-    image: odoo:16.0
+    image: odoo:17.0
     command: ${ODOO_CMD_ARGS} --addons-path=/mnt/extra-addons/base
     depends_on:
       - db

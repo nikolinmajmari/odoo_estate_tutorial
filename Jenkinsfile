@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Build & Start Containers for Testing and run') {
+        stage('Build & Start Containers for Testing and run tests') {
             agent any
             environment{
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
@@ -21,6 +21,12 @@ pipeline {
         }
 
         stage('Deploy to Production') {
+            environment{
+                ODOO_CMD_ARGS='--dev=all'
+                ODOO_EXPOSE_PORT=80
+                SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
+                POSTGRES_EXPOSE_PORT=5432
+            }
             when {
                 branch 'main'
             }

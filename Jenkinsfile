@@ -1,6 +1,6 @@
 pipeline {
     agent any
-     environment{
+    environment{
         ODOO_CMD_ARGS='--dev=all'
         ODOO_EXPOSE_PORT=8069
         SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
@@ -8,26 +8,18 @@ pipeline {
     }
     stages {
         stage('Build & Start Containers for Testing and run tests') {
-            agent any
             environment{
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
             }
             steps {
-                script {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        // Run your tests here (e.g., Maven, Gradle, or any other test command)
-                        sh 'sudo docker-compose up --abort-on-container-exit --exit-code-from web'
-                    }
-                }
+                  script {
+                      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                          // Run your tests here (e.g., Maven, Gradle, or any other test command)
+                          sh 'sudo docker-compose up --abort-on-container-exit --exit-code-from web'
+                      }
+                  }
             }
         }
-
-        stage('Stop & Remove Test Containers') {
-            steps {
-                sh 'docker-compose  down'
-            }
-        }
-
         stage('Deploy to Production') {
             environment{
                 ODOO_CMD_ARGS='--dev=all'
@@ -47,13 +39,13 @@ pipeline {
             }
             steps {
                 sh 'docker-compose -f docker-compose.yaml up -d --build'
+
             }
         }
     }
-
     post {
-        always {
-            sh 'docker-compose -f $COMPOSE_FILE down || true'
+        failure {
+            sh 'sudo docker-compose down'
         }
     }
 }

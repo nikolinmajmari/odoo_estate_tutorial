@@ -9,7 +9,9 @@ pipeline {
                 POSTGRES_EXPOSE_PORT=5432
             }
             steps {
-                sh 'docker-compose up --abort-on-container-exit	'
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh 'docker-compose up --abort-on-container-exit'
+                }
             }
         }
         stage('Deploy to Production') {

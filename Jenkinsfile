@@ -15,7 +15,7 @@ pipeline {
             }
         }
         stage('Deploy to Production') {
-            when {f docker-compose.yaml up 
+            when {
                 branch 'main'
             }
             steps {

@@ -13,7 +13,12 @@ pipeline {
                 ODOO_CMD_ARGS='-d db --db_host db --db_password odoo --log-level=test --test-enable --stop-after-init --no-http -i web'
             }
             steps {
-                sh 'docker-compose up --abort-on-container-exit	'
+                script {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        // Run your tests here (e.g., Maven, Gradle, or any other test command)
+                        sh 'sudo docker-compose up --abort-on-container-exit --exit-code-from web'
+                    }
+                }
             }
         }
 

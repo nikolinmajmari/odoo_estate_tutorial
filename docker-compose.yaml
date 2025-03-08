@@ -3,26 +3,27 @@ services:
   web:
     image: odoo:17.0
     container_name: odoo_estate
-    command: --dev=all --addons-path=/mnt/extra-addons/
+    command: ${ODOO_CMD_ARGS} --addons-path=/mnt/extra-addons/base
     depends_on:
       - db
     ports:
-      - 80:8069
+      - ${ODOO_EXPOSE_PORT}:8069
     volumes:
-      - ./config:/etc/odoo
-      - ./custom-modules:/mnt/extra-addons
+      - type: bind
+        source: ${SOFTCELL_BASE_ADDONS_PATH}
+        target: /mnt/extra-addons/base
   db:
     image: postgres:13
     container_name: odoo_estate_postgresql
     ports:
-      - 5432:5432
+      - ${POSTGRES_EXPOSE_PORT}:5432
     volumes:
       - ./postgress_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
-
 volumes:
   postgress_data:
+
 

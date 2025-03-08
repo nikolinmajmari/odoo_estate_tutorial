@@ -10,7 +10,7 @@ pipeline {
             }
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    sh 'docker-compose up --abort-on-container-exit'
+                    sh 'docker compose up --abort-on-container-exit'
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'docker-compose up -d --build'
+                sh 'docker compose up -d --build'
             }
         }
         stage('Deploy to Stagging') {
@@ -33,7 +33,7 @@ pipeline {
                 branch 'stagging'
             }
             steps {
-                sh 'docker-compose up -d --build'
+                sh 'docker compose up -d --build'
             }
         }
     }

@@ -40,11 +40,9 @@ pipeline {
                 SOFTCELL_BASE_ADDONS_PATH='./custom-modules'
                 POSTGRES_EXPOSE_PORT=5433
             }
-            when {
-                tag pattern: "stagging"
-            }
+            when { expression { return params.STAGGING_DEPLOY } }
             steps {
-                sh 'docker compose up -d --build'
+                sh 'docker compose -p stagging up -d --build'
             }
         }
     }

@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        choice(name: 'Environment', choices: ['Default','Stagging'], description: 'Pick something')
+    }
     stages {
         stage('Build & Start Containers for Testing and run') {
             environment{

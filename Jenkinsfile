@@ -1,11 +1,9 @@
 pipeline {
     agent any
-    properties([
-        parameters([
-            //choice(name: 'Environment', choices: ['Default','Stagging'], description: 'Pick something')
-            booleanParam(name: 'STAGGING_DEPLOY', defaultValue: false, description: 'Deploy build on stagging environment')
-        ])   
-    ])  
+     parameters([
+        //choice(name: 'Environment', choices: ['Default','Stagging'], description: 'Pick something')
+        booleanParam(name: 'STAGGING_DEPLOY', defaultValue: false, description: 'Deploy build on stagging environment')
+    ])   
     stages {
         stage('Build & Start Containers for Testing and run') {
             environment{

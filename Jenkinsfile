@@ -26,7 +26,7 @@ pipeline {
                 POSTGRES_EXPOSE_PORT=5432
             }
             when {
-                branch 'main'
+                branch 'none'
             }
             steps {
                 sh 'echo "$USER"'

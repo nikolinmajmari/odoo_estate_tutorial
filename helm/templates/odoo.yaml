@@ -1,20 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: odoo
-  namespace: saas-1
+  name: {{ .Values.name }}
 spec:
   selector:
     matchLabels:
-      app: odoo
+      app: {{ .Values.name }}
   template:
     metadata:
       labels:
-        app: odoo
+        app: {{ .Values.name }}
     spec:
       containers:
-        - name: odoo
-          image: nikolinmajmari/odoo_estate
+        - name: {{ .Values.name }}
+          image: nikolinmajmari/{{ .Values.image }}:{{ .Values.version }}
           env:
             - name: ODOO_CMD_ARGS
               value: ""
@@ -32,11 +31,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: odoo
+  name: {{ .Values.name }}-service
   namespace: saas-1
 spec:
   selector:
-    app: odoo
+    app: {{ .Values.name }} 
   ports:
     - protocol: TCP
       port: 8069

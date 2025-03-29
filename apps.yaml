@@ -2,27 +2,37 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: odoo-estate
-  namespace: argocd
 spec:
-  goTemplate: true
   generators:
     - pullRequest:
-      github:
-        owner: nikolinmajmari
-        repo: odoo_estate_tutorial
-      requeueAfterSeconds: 60
+        github:
+          owner: nikolinmajmari
+          repo: odoo_estate_tutorial
+        requeueAfterSeconds: 60
   template:
     metadata:
-      name: 'odoo-estate-{{.branch}}'
-  project: default
-  source:
-    repoURL: 'https://github.com/nikolinmajmari/odoo_estate_tutorial.git'
-    targetRevision: main
-    path: helm
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
+      name: 'odoo-estate-{{branch}}-{{number}}'
+    spec:
+      destination:
+        namespace: 'preview-{{branch}}'
+        server: 'https://kubernetes.default.svc'
+      project: default
+      source:
+        repoURL: 'https://github.com/nikolinmajmari/odoo-saas.git'
+        targetRevision: HEAD
+        helm:
+          parameters:
+            - name: namespace
+              value: 'preview-{{branch}}'
+            - name: version
+              value: '{{head_sha}}'
+            - name: image
+              value: odoo_estate
+            - name: name
+              value: saas
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+
+

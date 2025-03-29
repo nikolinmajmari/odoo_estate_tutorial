@@ -12,6 +12,8 @@ WORKDIR /usr/lib/python3/dist-packages/odoo
 # Bind custom modules directory (Volumes are typically managed in Docker Compose, not Dockerfile)
 COPY ./custom-modules /mnt/extra-addons
 
+
+
 # Expose the necessary port
 EXPOSE 8069
 

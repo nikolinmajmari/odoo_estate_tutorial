@@ -17,13 +17,6 @@ COPY ./custom-modules /mnt/extra-addons
 
 
 
-
-
-
-
-
-
-
 # Expose the necessary port
 EXPOSE 8069
 

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: odoo_estate
+  name: saas
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]

@@ -32,6 +32,14 @@ spec:
               value: odoo_estate
             - name: name
               value: saas
+  project: default
+  source:
+    repoURL: 'https://github.com/nikolinmajmari/odoo-saas.git'
+    targetRevision: HEAD
+    path: .argocd/templates
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true

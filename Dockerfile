@@ -16,4 +16,4 @@ COPY ./custom-modules /mnt/extra-addons
 EXPOSE 8069
 
 # Set the command to run Odoo with development mode enabled
-CMD ["odoo", "--dev=all"]
+CMD ["odoo", "--workers=4"]

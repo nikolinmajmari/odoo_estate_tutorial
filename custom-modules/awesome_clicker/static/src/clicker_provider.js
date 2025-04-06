@@ -10,6 +10,11 @@ commandProviderRegistry.add(
             console.log(env.services,options,' command registry');
             return [
                 {
+
+
+
+
+                    
                     name: 'Open Clicker Game',
                     action(){
                         doClickerAction(env.services.action);
